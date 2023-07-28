@@ -16,6 +16,7 @@ class SigninScreen extends StatefulWidget {
 class _SigninScreenState extends State<SigninScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _newController = TextEditingController();
 
   bool _showUsernameError = false;
   bool _showPasswordError = false;
