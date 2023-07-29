@@ -1,12 +1,9 @@
 import 'dart:io';
-import 'dart:math';
 
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:tripline/screens/trip_search_retrieve.dart';
 
 class DatabaseHelper {
   static const dbName = 'triplineDatabase.db';
@@ -70,9 +67,6 @@ class DatabaseHelper {
   static const columnTripExpenseItemDate = 'expenseItemDate';
   static const columnTripExpenseItemTime = 'expenseItemTime';
 
-
-
-
   static Database? _database;
   static final DatabaseHelper instance = DatabaseHelper._();
 
@@ -96,7 +90,7 @@ class DatabaseHelper {
         path,
         version: dbVersion,
         onCreate: _createDB,
-        
+
         onConfigure: (Database db) async {
           await db.execute('PRAGMA foreign_keys= ON;');
         }, //Foreign Keys Control
@@ -153,7 +147,7 @@ class DatabaseHelper {
       FOREIGN KEY ($columnTripId) REFERENCES $tripsTable($columnTripId) ON DELETE CASCADE
     )
   ''');
-  await db.execute('''
+    await db.execute('''
     CREATE TABLE $AlbumTable (
       $columnAlbumId INTEGER PRIMARY KEY,
       $columnTripId  INTEGER,
@@ -161,7 +155,7 @@ class DatabaseHelper {
       FOREIGN KEY ($columnTripId) REFERENCES $tripsTable($columnTripId) ON DELETE CASCADE
     )
   ''');
-  await db.execute('''
+    await db.execute('''
 CREATE TABLE $ExpenseTable (
   $columnTripExpenseId INTEGER PRIMARY KEY,
   $columnTripId INTEGER,
@@ -173,7 +167,7 @@ CREATE TABLE $ExpenseTable (
   ($columnTripId) ON DELETE CASCADE
 )
 ''');
-await db.execute('''
+    await db.execute('''
 CREATE TABLE $ExpenseItemTable (
   $columnTripExpenseItemId INTEGER PRIMARY KEY,
   $columnTripId INTEGER,
@@ -193,8 +187,9 @@ CREATE TABLE $ExpenseItemTable (
     Database db = await database;
     return await db.insert(AlbumTable, row);
   }
+
   //album read
-  Future <List<Map<String, dynamic>>> ReadAlbumRecord(int tripId) async {
+  Future<List<Map<String, dynamic>>> ReadAlbumRecord(int tripId) async {
     Database db = await database;
     return await db.query(
       AlbumTable,
@@ -202,7 +197,6 @@ CREATE TABLE $ExpenseItemTable (
       whereArgs: [tripId],
     );
   }
-
 
   //Users Functions
   Future<int> insertRecord(Map<String, dynamic> row) async {
@@ -269,17 +263,18 @@ CREATE TABLE $ExpenseItemTable (
       return {}; // Return an empty map if no user data found
     }
   }
+
   //get user data by id
   Future<Map<String, dynamic>> getUserDataById(int userId) async {
-  Database db = await database;
-  List<Map<String, dynamic>> result = await db.query(
-    usersTable,
-    where: '$columnUserId = ?',
-    whereArgs: [userId],
-    limit: 1,
-  );
-  return result.isNotEmpty ? result.first : {};
-}
+    Database db = await database;
+    List<Map<String, dynamic>> result = await db.query(
+      usersTable,
+      where: '$columnUserId = ?',
+      whereArgs: [userId],
+      limit: 1,
+    );
+    return result.isNotEmpty ? result.first : {};
+  }
 
   Future<void> setLoggedInUser(Map<String, dynamic> userData) async {
     Database db = await database;
@@ -352,16 +347,14 @@ CREATE TABLE $ExpenseItemTable (
   }
 
   Future<void> deleteAllTrips() async {
-  Database db = await database;
-  await db.delete(tripsTable);
-}
+    Database db = await database;
+    await db.delete(tripsTable);
+  }
+
   Future<bool> emptyHomeValidation(int userId) async {
     Database db = await database;
-    final result = await db.query(tripsTable,
-    where: '$columnUserId =?',
-    whereArgs: [userId]
-
-    );
+    final result = await db
+        .query(tripsTable, where: '$columnUserId =?', whereArgs: [userId]);
     print('*************');
     print(result.isEmpty);
     return result.isEmpty;
@@ -382,7 +375,9 @@ CREATE TABLE $ExpenseItemTable (
       // Add all the dates in the date range (inclusive) to the selectedDates list
       DateTime startDate = DateTime.parse(row[columnTripStartDate]);
       DateTime endDate = DateTime.parse(row[columnTripEndDate]);
-      for (DateTime date = startDate; date.isBefore(endDate) || date.isAtSameMomentAs(endDate); date = date.add(Duration(days: 1))) {
+      for (DateTime date = startDate;
+          date.isBefore(endDate) || date.isAtSameMomentAs(endDate);
+          date = date.add(Duration(days: 1))) {
         selectedDates.add(DateFormat('yyyy-MM-dd').format(date));
       }
     }
@@ -391,19 +386,22 @@ CREATE TABLE $ExpenseItemTable (
   }
 
   Future<List<Map<String, dynamic>>> queryTripRecordOngoing(int userId) async {
-  Database db = await database;
-  final currentDate = DateTime.now();
+    Database db = await database;
+    final currentDate = DateTime.now();
 
-  return await db.query(
-    tripsTable,
-    where: 'userId = ? AND (tripStartDate <= ? AND tripEndDate >= ?) OR (tripStartDate = ?)',
-    whereArgs: [userId, currentDate.toString(), currentDate.toString(), currentDate.toString()],
-    orderBy: '$columnTripStartDate ASC',
-  );
-}
-
-
-
+    return await db.query(
+      tripsTable,
+      where:
+          'userId = ? AND (tripStartDate <= ? AND tripEndDate >= ?) OR (tripStartDate = ?)',
+      whereArgs: [
+        userId,
+        currentDate.toString(),
+        currentDate.toString(),
+        currentDate.toString()
+      ],
+      orderBy: '$columnTripStartDate ASC',
+    );
+  }
 
   Future<List<Map<String, dynamic>>> queryTripRecordUpcoming(int userId) async {
     Database db = await database;
@@ -415,36 +413,32 @@ CREATE TABLE $ExpenseItemTable (
   }
 
   Future<Map<String, dynamic>> queryUpcomingTrips(int userId) async {
-  Database db = await database;
-  final currentDate = DateTime.now();
+    Database db = await database;
+    final currentDate = DateTime.now();
 
-  List<Map<String, dynamic>> tripRecords = await db.query(tripsTable,
-      where: 'userId = ? AND tripStartDate > ?',
-      whereArgs: [userId, currentDate.toString()],
-      orderBy: '$columnTripStartDate ASC');
+    List<Map<String, dynamic>> tripRecords = await db.query(tripsTable,
+        where: 'userId = ? AND tripStartDate > ?',
+        whereArgs: [userId, currentDate.toString()],
+        orderBy: '$columnTripStartDate ASC');
 
-  int upcomingTripCount = tripRecords.length;
-  print('*********++++++++++++');
-  print(upcomingTripCount);
+    int upcomingTripCount = tripRecords.length;
+    print('*********++++++++++++');
+    print(upcomingTripCount);
 
-  return {
-    'tripRecords': tripRecords,
-    'upcomingTripCount': upcomingTripCount,
-  };
-}
-
-
-  
+    return {
+      'tripRecords': tripRecords,
+      'upcomingTripCount': upcomingTripCount,
+    };
+  }
 
   Future<List<Map<String, dynamic>>> queryTripRecordRecent(int userId) async {
-  Database db = await database;
-  final currentDate = DateTime.now();
-  return await db.query(tripsTable,
-      where: 'userId = ? AND tripStartDate < ? AND tripEndDate < ?',
-      whereArgs: [userId, currentDate.toString(), currentDate.toString()],
-      orderBy: '$columnTripStartDate ASC');
-}
-
+    Database db = await database;
+    final currentDate = DateTime.now();
+    return await db.query(tripsTable,
+        where: 'userId = ? AND tripStartDate < ? AND tripEndDate < ?',
+        whereArgs: [userId, currentDate.toString(), currentDate.toString()],
+        orderBy: '$columnTripStartDate ASC');
+  }
 
   Future<List<Map<String, Object?>>> getTripDetails(int tripId) async {
     Database db = await database;
@@ -454,6 +448,7 @@ CREATE TABLE $ExpenseItemTable (
       whereArgs: [tripId],
     );
   }
+
   //GET USER DETAILS :
   Future<List<Map<String, Object?>>> getUserDetails(int userId) async {
     Database db = await database;
@@ -464,35 +459,41 @@ CREATE TABLE $ExpenseItemTable (
     );
   }
 
-  Future<int> updateTripRecord(int? tripid, Map<String, dynamic> tripData) async {
-  //   if (tripData[columnTripId] == null) {
-  //   throw ArgumentError("Trip data must contain a valid 'columnTripId' key.");
-  // }
-  print(tripid);
-  print('****************');
-  print( tripData);
+  Future<int> updateTripRecord(
+      int? tripid, Map<String, dynamic> tripData) async {
+    //   if (tripData[columnTripId] == null) {
+    //   throw ArgumentError("Trip data must contain a valid 'columnTripId' key.");
+    // }
+    print(tripid);
+    print('****************');
+    print(tripData);
     Database db = await database;
-    
+
     return await db.update(
       tripsTable,
       tripData,
       where: '$columnTripId = ?',
       whereArgs: [tripid],
-      
     );
-     
   }
+
   //update profile
-  Future<int> updateProfileRecord(int? userId, Map<String, dynamic> profileData) async {
+  Future<int> updateProfileRecord(
+      int? userId, Map<String, dynamic> profileData) async {
     Database db = await database;
+
+    Map<String, dynamic> updatedData = {
+      'userName': profileData['userName'] ?? '',
+      'userEmail': profileData['userEmail'] ?? '',
+      // Add other fields if needed, but make sure to include their existing values
+    };
+
     return await db.update(
       usersTable,
-      profileData,
+      updatedData,
       where: '$columnUserId = ?',
       whereArgs: [userId],
-      
     );
-     
   }
 
   Future<int> deleteTripRecord(int? id) async {
@@ -543,7 +544,7 @@ CREATE TABLE $ExpenseItemTable (
 
   Future<List<Map<String, dynamic>>> getTripActivities(int tripId) async {
     final db = await database;
-    List<Map<String, dynamic>> result =  await db.query(
+    List<Map<String, dynamic>> result = await db.query(
       ActivitiesTable,
       where: '$columnTripId = ?',
       whereArgs: [tripId],
@@ -586,6 +587,7 @@ CREATE TABLE $ExpenseItemTable (
       whereArgs: [tripId],
     );
   }
+
   // Future<List<Map<String, dynamic>>> getTripActivities(int tripId) async {
   //   final db = await database;
   //   List<Map<String, dynamic>> result =  await db.query(
@@ -596,7 +598,7 @@ CREATE TABLE $ExpenseItemTable (
   //   print(result);
   //   return result;
   // }
-  Future<List<Map<String, dynamic>>> fetchExpenseInfo (int tripId) async{
+  Future<List<Map<String, dynamic>>> fetchExpenseInfo(int tripId) async {
     final db = await database;
     List<Map<String, dynamic>> fetch = await db.query(
       ExpenseTable,
@@ -610,10 +612,10 @@ CREATE TABLE $ExpenseItemTable (
   //   return await db.insert(tripsTable, tripData);
   // }
 
-  Future<int> insertExpenseOverview (Map<String, dynamic> expenseOverview) async {
+  Future<int> insertExpenseOverview(
+      Map<String, dynamic> expenseOverview) async {
     Database db = await database;
     return await db.insert(ExpenseTable, expenseOverview);
-
   }
 
   // Future<List<Map<String, dynamic>>> readAllTrips() async {

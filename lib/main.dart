@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:tripline/database/database_helper.dart';
 import 'package:tripline/screens/add_trip_form_screens/add_trip_main_screen.dart';
-import 'package:tripline/screens/app_info.dart';
-import 'package:tripline/screens/catalog_screen.dart';
-import 'package:tripline/screens/expense_screen.dart';
-import 'package:tripline/screens/help_screen.dart';
-import 'package:tripline/screens/home_screen.dart';
-import 'package:tripline/screens/navigation.dart';
-import 'package:tripline/screens/privacy_policy.dart';
-import 'package:tripline/screens/settings_screen.dart';
-import 'package:tripline/screens/signin_screen.dart';
-import 'package:tripline/screens/signup_screen.dart';
-import 'package:tripline/screens/splash_screen.dart';
-import 'package:tripline/screens/terms_and_conditions.dart';
-import 'package:tripline/screens/trip_details_screen.dart';
-import 'package:tripline/screens/welcome_screen.dart';
+import 'package:tripline/screens/settings_screens/app_info.dart';
+import 'package:tripline/screens/catalog_screens/catalog_screen.dart';
+import 'package:tripline/screens/expense_modules/expense_screen.dart';
+import 'package:tripline/screens/settings_screens/help_screen.dart';
+import 'package:tripline/screens/home_screens/home_screen.dart';
+import 'package:tripline/navigation/navigation.dart';
+import 'package:tripline/screens/settings_screens/privacy_policy.dart';
+import 'package:tripline/screens/settings_screens/settings_screen.dart';
+import 'package:tripline/screens/sign_in_screen/signin_screen.dart';
+import 'package:tripline/screens/sign_up_screen/signup_screen.dart';
+import 'package:tripline/screens/splash_screen/splash_screen.dart';
+import 'package:tripline/screens/settings_screens/terms_and_conditions.dart';
+import 'package:tripline/screens/trip_details_screens/trip_details_screen.dart';
+import 'package:tripline/screens/welcome_screen/welcome_screen.dart';
 import 'package:tripline/styles/color_styles.dart';
 
 main() async {
@@ -36,13 +35,26 @@ class TriplineApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    SystemChrome.setSystemUIOverlayStyle(
-    SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent
-    )
-    );
-    return MaterialApp(
+    //  SystemChrome.setSystemUIOverlayStyle(
+    // SystemUiOverlayStyle(
+    //   statusBarColor: Colors.transparent
+    // )
+    // );
+    return
+        // AnnotatedRegion<SystemUiOverlayStyle>(
+        // value: SystemUiOverlayStyle(
+        //   systemNavigationBarColor: Colors.black, // Set your default SafeArea color for light mode
+        //   systemNavigationBarDividerColor: null,
+        //   statusBarColor: Colors.transparent,
+        //   systemNavigationBarIconBrightness:
+        //       MediaQuery.of(context).platformBrightness == Brightness.dark
+        //           ? Brightness.light // Set the icons to light for dark mode
+        //           : Brightness.dark, // Set the icons to dark for light mode
+        //   statusBarIconBrightness: MediaQuery.of(context).platformBrightness,
+        //   statusBarBrightness: MediaQuery.of(context).platformBrightness,
+        // ),
+        // child:
+        MaterialApp(
       routes: {
         'Splash': (context) => SplashScreen(),
         'Signin': (context) => SigninScreen(),
@@ -72,12 +84,15 @@ class TriplineApp extends StatelessWidget {
         'Terms': (context) => TermsAndConditions(),
         'AppInfo': (context) => AppInfo(),
         'Help': (context) => HelpPage(),
-        'Catalog': (context) => CatalogScreen(loggedInUserData: loggedInUserData,),
+        'Catalog': (context) => CatalogScreen(
+              loggedInUserData: loggedInUserData,
+            ),
       },
       theme: ThemeData(
         primaryColor: CustomColors.primaryColor,
         primarySwatch: CustomColors.primaryColor,
         fontFamily: 'Outfit',
+        brightness: Brightness.light,
         navigationBarTheme: NavigationBarThemeData(
           indicatorShape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12.0),
@@ -91,6 +106,11 @@ class TriplineApp extends StatelessWidget {
           ),
         ),
       ),
+      // darkTheme: ThemeData(
+      //   // Set your dark theme here
+      //   brightness: Brightness.dark,
+      //   primarySwatch: Colors.blueGrey,
+      // ),
       home: SplashScreen(),
       debugShowCheckedModeBanner: false,
     );

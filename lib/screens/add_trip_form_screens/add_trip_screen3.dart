@@ -1,34 +1,29 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:tripline/database/database_helper.dart';
 import 'package:tripline/styles/text_styles.dart';
 import 'package:tripline/widgets/input_fields.dart';
 import 'package:tripline/widgets/other_widgets.dart';
 
-
-
 // ignore: must_be_immutable
 class Screen3 extends StatefulWidget {
   Map<String, dynamic> dataMap;
-  
-  
-  Screen3({required this.dataMap} );
+
+  Screen3({required this.dataMap});
   @override
   State<Screen3> createState() => _Screen3State();
 }
 
 class _Screen3State extends State<Screen3> {
   final TextEditingController companion = TextEditingController();
-  List<String> activities=[];
-  
+  List<String> activities = [];
+
   @override
   void dispose() {
     companion.dispose();
     super.dispose();
   }
 
-  void updateDataMap() {  
+  void updateDataMap() {
     widget.dataMap[DatabaseHelper.columnTripCompanions] = companion.text;
     widget.dataMap['activities'] = activities;
   }
@@ -212,11 +207,13 @@ class _Screen3State extends State<Screen3> {
                         Row(
                           children: [
                             Expanded(
-                              child: CustomAlertButton(buttonText: 'Cancel', onPressed: (){
-                                Navigator.of(context).pop();
-                              }),
+                              child: CustomAlertButton(
+                                  buttonText: 'Cancel',
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  }),
                             ),
-                             SizedBox(width: 15),
+                            SizedBox(width: 15),
                             Expanded(
                               child: CustomSecondaryButton(
                                 buttonText: 'Add',
@@ -225,7 +222,8 @@ class _Screen3State extends State<Screen3> {
                                     if (activitiessheet.length < 12) {
                                       customState(() {
                                         if (index != null) {
-                                          activitiessheet[index] = activity.text;
+                                          activitiessheet[index] =
+                                              activity.text;
                                         } else {
                                           activitiessheet.add(activity.text);
                                         }

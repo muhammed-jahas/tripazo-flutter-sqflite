@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tripline/database/database_helper.dart';
-import 'package:tripline/screens/navigation.dart';
+import 'package:tripline/messages/custom_toast.dart';
+import 'package:tripline/navigation/navigation.dart';
 import 'package:tripline/validations/signin_validations.dart';
 import 'package:tripline/widgets/other_widgets.dart';
 import 'package:tripline/widgets/input_fields.dart';
@@ -16,7 +17,6 @@ class SigninScreen extends StatefulWidget {
 class _SigninScreenState extends State<SigninScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  
 
   bool _showUsernameError = false;
   bool _showPasswordError = false;
@@ -156,7 +156,8 @@ class _SigninScreenState extends State<SigninScreen> {
                           if (!isValid) {
                             setState(() {
                               _showPasswordError = true;
-                              SigninValidate.passwordError = 'Invalid Credentials';
+                              SigninValidate.passwordError =
+                                  'Invalid Credentials';
                             });
                             return;
                           }
@@ -171,12 +172,12 @@ class _SigninScreenState extends State<SigninScreen> {
                           Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => NavigationItems(
-                                userData
-                              ),
+                              builder: (context) => NavigationItems(userData),
                             ),
                             (route) => false,
                           );
+                          showCustomToast(context, 'Logged in Successfully',
+                              Icons.check_circle_rounded, Colors.green);
                         },
                       ),
                       SizedBox(height: 15),

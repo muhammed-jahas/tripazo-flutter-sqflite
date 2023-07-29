@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:tripline/database/database_helper.dart';
 
-import 'package:tripline/screens/drawer_screen.dart';
+import 'package:tripline/screens/drawer_screen/drawer_screen.dart';
 import 'package:tripline/bottom_sheets/sign_out_bottom_sheet.dart';
 
 import 'package:tripline/styles/text_styles.dart';
@@ -21,10 +21,10 @@ class _CatalogScreenState extends State<CatalogScreen> {
 
   int upcomingTripCount = 0;
   int recentTripCount = 0;
-   @override
+  @override
   void initState() {
     super.initState();
-    
+
     fetchTripCount();
   }
 
@@ -39,23 +39,24 @@ class _CatalogScreenState extends State<CatalogScreen> {
   void _showSignOutBox(BuildContext context) {
     openSignOutBox(context);
   }
-    fetchTripCount() async {
+
+  fetchTripCount() async {
     final userId = widget.loggedInUserData['userId'];
-    List<Map<String, dynamic>> tripUpcomingData = await DatabaseHelper.instance.queryTripRecordUpcoming(userId);
-    List<Map<String, dynamic>> tripRecentData = await DatabaseHelper.instance.queryTripRecordRecent(userId);
+    List<Map<String, dynamic>> tripUpcomingData =
+        await DatabaseHelper.instance.queryTripRecordUpcoming(userId);
+    List<Map<String, dynamic>> tripRecentData =
+        await DatabaseHelper.instance.queryTripRecordRecent(userId);
     setState(() {
       upcomingTripCount = tripUpcomingData.length;
       recentTripCount = tripRecentData.length;
     });
-  } 
-   
+  }
 
   Widget _buildItemWidget(String count, String text) {
     return Container(
       color: Colors.white,
       padding: EdgeInsets.only(top: 40, left: 30),
       child: Column(
-
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -119,7 +120,6 @@ class _CatalogScreenState extends State<CatalogScreen> {
             ),
             SizedBox(height: 30),
             Expanded(
-              
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: GridView.count(
@@ -130,7 +130,6 @@ class _CatalogScreenState extends State<CatalogScreen> {
                   children: [
                     _buildItemWidget('$upcomingTripCount', 'Upcoming\nTrips'),
                     _buildItemWidget('$recentTripCount', 'Recent\nTrips'),
-                    
                   ],
                 ),
               ),

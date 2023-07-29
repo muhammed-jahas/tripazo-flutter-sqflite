@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:tripline/database/database_helper.dart';
-import 'package:tripline/styles/color_styles.dart';
 
 // Input Text Field
 class CustomInputField extends StatefulWidget {
@@ -37,10 +36,9 @@ class CustomInputField extends StatefulWidget {
 
 class _CustomInputFieldState extends State<CustomInputField> {
   bool isObscured = true;
-  
+
   @override
   Widget build(BuildContext context) {
-    
     return Container(
       constraints: BoxConstraints(
         minHeight: 58,
@@ -120,7 +118,6 @@ class CustomCalendarInputField extends StatefulWidget {
   final ValueChanged<String>? onChanged;
   final String? labelText;
 
-
   CustomCalendarInputField({
     required this.hintText,
     required this.inputIcon,
@@ -155,101 +152,105 @@ class _CustomCalendarInputFieldState extends State<CustomCalendarInputField> {
       selectedTripDates = dates;
     });
   }
+
   Future<void> _showCustomDatePicker() async {
-  DateTime? pickedDate = await showDialog<DateTime>(
-    context: context,
-    builder: (context) {
-      DateTime selectedDate = DateTime.now();
-      bool isInvalidDateSelected = false; // To track if an invalid date is selected
-      return Dialog(
-        child: Container(
-          padding: EdgeInsets.all(16.0),
-          child: StatefulBuilder(
-            builder: (context, setState) {
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TableCalendar(
-                    firstDay: DateTime.now(), // Disable dates before today
-                    lastDay: DateTime(2099),
-                    focusedDay: selectedDate,
-                    selectedDayPredicate: (day) {
-                      final formattedDate = DateFormat('yyyy-MM-dd').format(day);
-                      return !selectedTripDates.contains(formattedDate);
-                    },
-                    onDaySelected: (selected, focused) {
-                      final formattedDate = DateFormat('yyyy-MM-dd').format(selected);
-                      if (!selectedTripDates.contains(formattedDate)) {
-                        // The selected date is not already a trip date, so close the picker and return the date
-                        Navigator.pop(context, selected);
-                      } else {
-                        // The selected date is already a trip date, show the error message
-                        setState(() {
-                          isInvalidDateSelected = true;
-                        });
-                      }
-                    },
-                    calendarBuilders: CalendarBuilders(
-                      // Define a custom dayBuilder for non-selectable dates
-                      // Here, we give them a grey background
-                      defaultBuilder: (context, day, focusedDay) {
-                        final formattedDate = DateFormat('yyyy-MM-dd').format(day);
-                        if (selectedTripDates.contains(formattedDate)) {
-                          return Container(
-                            margin: const EdgeInsets.all(4),
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              color: Colors.grey,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Text(
-                              day.day.toString(),
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          );
+    DateTime? pickedDate = await showDialog<DateTime>(
+      context: context,
+      builder: (context) {
+        DateTime selectedDate = DateTime.now();
+        bool isInvalidDateSelected =
+            false; // To track if an invalid date is selected
+        return Dialog(
+          child: Container(
+            padding: EdgeInsets.all(16.0),
+            child: StatefulBuilder(
+              builder: (context, setState) {
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TableCalendar(
+                      firstDay: DateTime.now(), // Disable dates before today
+                      lastDay: DateTime(2099),
+                      focusedDay: selectedDate,
+                      selectedDayPredicate: (day) {
+                        final formattedDate =
+                            DateFormat('yyyy-MM-dd').format(day);
+                        return !selectedTripDates.contains(formattedDate);
+                      },
+                      onDaySelected: (selected, focused) {
+                        final formattedDate =
+                            DateFormat('yyyy-MM-dd').format(selected);
+                        if (!selectedTripDates.contains(formattedDate)) {
+                          // The selected date is not already a trip date, so close the picker and return the date
+                          Navigator.pop(context, selected);
                         } else {
-                          return null;
+                          // The selected date is already a trip date, show the error message
+                          setState(() {
+                            isInvalidDateSelected = true;
+                          });
                         }
                       },
+                      calendarBuilders: CalendarBuilders(
+                        // Define a custom dayBuilder for non-selectable dates
+                        // Here, we give them a grey background
+                        defaultBuilder: (context, day, focusedDay) {
+                          final formattedDate =
+                              DateFormat('yyyy-MM-dd').format(day);
+                          if (selectedTripDates.contains(formattedDate)) {
+                            return Container(
+                              margin: const EdgeInsets.all(4),
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: Colors.grey,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Text(
+                                day.day.toString(),
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            );
+                          } else {
+                            return null;
+                          }
+                        },
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 20),
-                  
-                  if (isInvalidDateSelected)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: Container(
-                        color: Colors.red,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            'You have already a Trip in this Date.',
-                            style: TextStyle(color: Colors.white),
+                    SizedBox(height: 20),
+                    if (isInvalidDateSelected)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4),
+                            color: Colors.red,
+
+                          ),
+                          
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 20.0,horizontal: 20),
+                            child: Text(
+                              'You have already a Trip in this Date.',
+                              style: TextStyle(color: Colors.white),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                ],
-              );
-            },
+                  ],
+                );
+              },
+            ),
           ),
-        ),
-      );
-    },
-  );
+        );
+      },
+    );
 
-  if (pickedDate != null) {
-    setState(() {
-      selectedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
-      widget.inputControl.text = selectedDate;
-    });
+    if (pickedDate != null) {
+      setState(() {
+        selectedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
+        widget.inputControl.text = selectedDate;
+      });
+    }
   }
-}
-
-
-
-
-
 
   @override
   Widget build(BuildContext context) {

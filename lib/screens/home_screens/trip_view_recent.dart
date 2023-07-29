@@ -6,36 +6,33 @@ import 'package:tripline/main.dart';
 import 'package:tripline/styles/text_styles.dart';
 
 class TripViewRecent extends StatelessWidget {
- 
-   final Map<String, dynamic> loggedInUserData;
+  final Map<String, dynamic> loggedInUserData;
 
   const TripViewRecent({
     Key? key,
     required this.loggedInUserData,
-   
   }) : super(key: key);
-  
 
   @override
   Widget build(BuildContext context) {
-    int userId=loggedInUserData['userId'];
-    print(userId);
+    int userId = loggedInUserData['userId'];
     return FutureBuilder<List<Map<String, dynamic>>>(
       future: DatabaseHelper.instance.queryTripRecordRecent(userId),
       builder: (context, snapshot) {
-        
-        // if (snapshot.connectionState == ConnectionState.waiting) {
-        //   return CircularProgressIndicator();
-        // }
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
 
         if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         }
-        
-        else if (snapshot.data==null || snapshot.data!.isEmpty || !snapshot.hasData) {
-          
+
+        final tripData = snapshot.data ?? [];
+        if (tripData.isEmpty) {
           return Container(
-            height: 150,
+            height: 200,
             alignment: Alignment.center,
             child: Text(
               'No Recent trips',
@@ -45,58 +42,55 @@ class TripViewRecent extends StatelessWidget {
               ),
             ),
           );
-        } 
-        
-        final tripData = snapshot.data ?? [];
+        }
+
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-                  height: 15,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Text(
-                    'Recent Trips',
-                    style: CustomTextStyles.title2,
+              height: 15,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Text(
+                'Upcoming Trips',
+                style: CustomTextStyles.title2,
+              ),
+            ),
+            SizedBox(
+              height: 25,
+            ),
+            ClipRRect(
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+
+                // color: Colors.black,
+                child: GridView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2, // 2 items per row
+                    crossAxisSpacing: 15,
+                    mainAxisSpacing: 15,
+                    childAspectRatio: 1 / .8,
                   ),
+                  itemCount: tripData.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final trip = tripData[index];
+                    return TripCard(
+                      tripId: trip['tripId'],
+                      destination: trip['tripDestination'],
+                      startDate: trip['tripStartDate'],
+                      tripCover: trip['tripCover'],
+                      loggedInUserData: loggedInUserData,
+                    );
+                  },
                 ),
-               SizedBox(
-                  height: 15,
-                ),
-            Container(
-              
-              padding: EdgeInsets.only(left: 20),
-              height: 150,
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                itemCount: tripData.length,
-                separatorBuilder: (context, index) {
-                  return SizedBox(
-                    width: 15,
-                  );
-                },
-                itemBuilder: (BuildContext context, int index) {
-                  final trip = tripData[index];
-                  
-                  return TripCard(
-                    tripId: trip['tripId'],
-                    destination: trip['tripDestination'],
-                    startDate: trip['tripStartDate'],
-                    tripCover: trip['tripCover'],
-
-                    loggedInUserData: loggedInUserData,
-
-                  );
-                },
               ),
             ),
           ],
         );
-
-        }
-        
-      
+      },
     );
   }
 }
@@ -107,26 +101,28 @@ class TripCard extends StatelessWidget {
   final String startDate;
   final String tripCover;
   final Map<String, dynamic> loggedInUserData;
-  const TripCard({
-    Key? key,
-    required this.tripId,
-    required this.destination,
-    required this.startDate,
-    required this.tripCover,
-    required this.loggedInUserData
-  }) : super(key: key);
+  const TripCard(
+      {Key? key,
+      required this.tripId,
+      required this.destination,
+      required this.startDate,
+      required this.tripCover,
+      required this.loggedInUserData})
+      : super(key: key);
 
   @override
-
   Widget build(BuildContext context) {
     return Stack(
       children: [
         InkWell(
           onTap: () {
-        Navigator.pushNamed(context, 'tripdetailsscreen',arguments: TripDetailsScreenArguments(loggedInUserData, tripId),);
-        },
+            Navigator.pushNamed(
+              context,
+              'tripdetailsscreen',
+              arguments: TripDetailsScreenArguments(loggedInUserData, tripId),
+            );
+          },
           child: ClipRRect(
-            
             borderRadius: BorderRadius.circular(6),
             child: Container(
               decoration: BoxDecoration(
@@ -135,7 +131,6 @@ class TripCard extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              width: 200,
             ),
           ),
         ),
@@ -147,10 +142,10 @@ class TripCard extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+              filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.3),
+                  color: Colors.black.withOpacity(0.6),
                 ),
               ),
             ),

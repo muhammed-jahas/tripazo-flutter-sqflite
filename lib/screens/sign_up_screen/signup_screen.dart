@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tripline/database/database_helper.dart';
 import 'package:tripline/main.dart';
 import 'package:tripline/imagehelpers/image_helper.dart';
+import 'package:tripline/messages/custom_toast.dart';
 import 'package:tripline/validations/signup_validations.dart';
 import 'package:tripline/widgets/other_widgets.dart';
 import 'package:tripline/widgets/input_fields.dart';
@@ -245,7 +246,8 @@ class _SignupScreenState extends State<SignupScreen> {
                               if (!_showUsernameError &&
                                   !_showPasswordError &&
                                   !_showConfirmPassError &&
-                                  !_showMailError && _profileImagePath.isNotEmpty) {
+                                  !_showMailError &&
+                                  _profileImagePath.isNotEmpty) {
                                 Map<String, dynamic> row = {
                                   DatabaseHelper.columnUser:
                                       _usernameController.text,
@@ -262,6 +264,11 @@ class _SignupScreenState extends State<SignupScreen> {
 
                                 await DatabaseHelper.instance.insertRecord(row);
                                 await checkLoggedInStatus();
+                                showCustomToast(
+                                    context,
+                                    'Account Created Successfully',
+                                    Icons.check_circle_rounded,
+                                    Colors.green);
 
                                 // Navigator.pushAndRemoveUntil(
                                 //   context,

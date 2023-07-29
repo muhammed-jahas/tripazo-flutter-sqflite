@@ -140,7 +140,8 @@ class WelcomeScreen extends StatelessWidget {
     await _requestPermissions(context, 'Signup');
   }
 
-  Future<void> _requestPermissions(BuildContext context, String targetPage) async {
+  Future<void> _requestPermissions(
+      BuildContext context, String targetPage) async {
     // Request camera permission
     if (!await Permission.camera.request().isGranted) {
       return;

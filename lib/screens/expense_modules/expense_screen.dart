@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:tripline/database/database_helper.dart';
 import 'package:tripline/screens/expense_modules/expense_chart_widget.dart';
-import 'package:tripline/screens/trip_details_screen.dart';
 import 'package:tripline/styles/color_styles.dart';
 import 'package:tripline/styles/text_styles.dart';
 import 'package:tripline/widgets/input_fields.dart';
@@ -12,7 +11,7 @@ import 'package:tripline/widgets/other_widgets.dart';
 class ExpenseScreen extends StatefulWidget {
   final Map<String, dynamic> loggedInUserData;
   final Map<String, dynamic>? tripData;
-  ExpenseScreen({required this.loggedInUserData,this.tripData});
+  ExpenseScreen({required this.loggedInUserData, this.tripData});
 
   @override
   State<ExpenseScreen> createState() => _ExpenseScreenState();
@@ -25,6 +24,7 @@ class _ExpenseScreenState extends State<ExpenseScreen>
   void _openDrawer() {
     _scaffoldKey.currentState?.openDrawer();
   }
+
   Map<String, dynamic>? tripExpenseOverview = {};
 
   final double currentExpense = 4000;
@@ -40,28 +40,28 @@ class _ExpenseScreenState extends State<ExpenseScreen>
 
   @override
   void initState() {
-  super.initState();
-   _tabController = TabController(length: 2, vsync: this);
-  print('loggedInUserData: ${widget.loggedInUserData}');
-  print('tripData: ${widget.tripData}');
-  fetchExpenseInformation(); // Make sure this method is called.
-}
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+    print('loggedInUserData: ${widget.loggedInUserData}');
+    print('tripData: ${widget.tripData}');
+    fetchExpenseInformation(); // Make sure this method is called.
+  }
+
   Future<void> fetchExpenseInformation() async {
-  final tripId = widget.tripData?['tripId'];
-  print('rrrrrrrrrrrrrrrrr');
-  print(widget.tripData);
-  print('rrrrrrrdhdhdhdhdhdhrrrrrrrrrr');
- 
-  final fetch = await DatabaseHelper.instance.fetchExpenseInfo(tripId);
+    final tripId = widget.tripData?['tripId'];
+    print('rrrrrrrrrrrrrrrrr');
+    print(widget.tripData);
+    print('rrrrrrrdhdhdhdhdhdhrrrrrrrrrr');
 
-  if (fetch.isNotEmpty) {
-    setState(() {
-      this.tripExpenseOverview = fetch.first;
-    });
-  } 
-}
+    final fetch = await DatabaseHelper.instance.fetchExpenseInfo(tripId);
 
- 
+    if (fetch.isNotEmpty) {
+      setState(() {
+        this.tripExpenseOverview = fetch.first;
+      });
+    }
+  }
+
   @override
   void dispose() {
     _tabController.dispose();
@@ -83,15 +83,12 @@ class _ExpenseScreenState extends State<ExpenseScreen>
 
   @override
   Widget build(BuildContext context) {
-
     // // final ExpenseScreenArguments args =
     // //     ModalRoute.of(context)?.settings.arguments as ExpenseScreenArguments;
 
     // // Now you can access the loggedInUserData and tripData like this:
     // final Map<String, dynamic> loggedInUserData = args.loggedInUserData!;
     // final Map<String, dynamic>? tripData = args.tripData;
-
-
 
     double screenHeight = MediaQuery.of(context).size.height;
     double appBarHeight = AppBar().preferredSize.height;
@@ -120,7 +117,7 @@ class _ExpenseScreenState extends State<ExpenseScreen>
                 color: Colors.white,
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                 child: Container(
-                  child: Row( 
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
@@ -138,14 +135,14 @@ class _ExpenseScreenState extends State<ExpenseScreen>
                       ),
                       Row(
                         children: [
-                          Icon(Icons.mode_edit_outlined),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Icon(Icons.delete_outline),
-                          SizedBox(
-                            width: 20,
-                          ),
+                          // Icon(Icons.mode_edit_outlined),
+                          // SizedBox(
+                          //   width: 20,
+                          // ),
+                          // Icon(Icons.delete_outline),
+                          // SizedBox(
+                          //   width: 20,
+                          // ),
                           GestureDetector(
                             onTap: _openDrawer,
                             child: Container(
@@ -225,7 +222,8 @@ class _ExpenseScreenState extends State<ExpenseScreen>
                                         children: [
                                           Expense_Container(
                                             //containerColor: Colors.grey,
-                                           Title: '₹ ${widget.tripData!['tripBudget'].toString()}',
+                                            Title:
+                                                '₹ ${widget.tripData!['tripBudget'].toString()}',
                                             subTitle: 'Budget',
                                             ButtonIcon: Icons.add,
                                             ButtonText: 'Increase',
@@ -238,7 +236,8 @@ class _ExpenseScreenState extends State<ExpenseScreen>
                                           ),
                                           Expense_Container(
                                             //containerColor: Colors.amber,
-                                            Title: '₹ ${tripExpenseOverview!['tripExpenseTotal'].toString()}',
+                                            Title:
+                                                '₹ ${tripExpenseOverview!['tripExpenseTotal'].toString()}',
                                             subTitle: 'Expenses',
                                             ButtonText: '',
                                             // containerColor:  Colors.red,
@@ -256,7 +255,8 @@ class _ExpenseScreenState extends State<ExpenseScreen>
                                         children: [
                                           Expense_Container(
                                             //containerColor: Colors.grey,
-                                            Title: '₹ ${tripExpenseOverview!['tripBalance'].toString()}',
+                                            Title:
+                                                '₹ ${tripExpenseOverview!['tripBalance'].toString()}',
                                             subTitle: 'Balance',
                                             ButtonText: '',
                                             //  containerColor:  Colors.blue,
@@ -266,7 +266,8 @@ class _ExpenseScreenState extends State<ExpenseScreen>
                                           ),
                                           Expense_Container(
                                             //containerColor: Colors.amber,
-                                             Title: '₹ ${tripExpenseOverview!['tripExpensePerPerson'].toString()}',
+                                            Title:
+                                                '₹ ${tripExpenseOverview!['tripExpensePerPerson'].toString()}',
                                             subTitle: 'Per Person',
                                             ButtonText: '',
                                             // containerColor:  Colors.grey,
@@ -294,7 +295,9 @@ class _ExpenseScreenState extends State<ExpenseScreen>
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
                                           children: [
-                                            Text('Expenses : ${tripExpenseOverview!['tripExpenseCount'].toString()}',),
+                                            Text(
+                                              'Expenses : ${tripExpenseOverview!['tripExpenseCount'].toString()}',
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -309,7 +312,9 @@ class _ExpenseScreenState extends State<ExpenseScreen>
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
                                           children: [
-                                            Text('Companions : ${widget.tripData!['tripCompanions'].toString()}',),
+                                            Text(
+                                              'Companions : ${widget.tripData!['tripCompanions'].toString()}',
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -418,9 +423,9 @@ class _ExpenseScreenState extends State<ExpenseScreen>
                                 child: CustomSecondaryButton(
                                   buttonText: 'Add Expense',
                                   onPressed: () async {
-                                    print(widget.tripData);
-                                //  await fetchExpenseInformation();
-                                //     // openCheckpointsBottomSheet(context);
+                                    // print(widget.tripData);
+                                    // await fetchExpenseInformation();
+                                        openAddExpenseBottomSheet(context);
                                   },
                                 ),
                               ),
@@ -447,7 +452,7 @@ class _ExpenseScreenState extends State<ExpenseScreen>
                                 border: Border.all(
                                   color: Colors.grey.shade300,
                                 )),
-                            height: 180,
+                            height: 140,
                             child: Column(
                               children: [
                                 SizedBox(
@@ -507,36 +512,34 @@ class _ExpenseScreenState extends State<ExpenseScreen>
                                     Text('This is for food in Kozhikode'),
                                   ],
                                 ),
-                                DropdownButtonHideUnderline(
-                                  child: DropdownButton<String>(
-                                    
-                                    isExpanded: true,
-                                    value: selectedCategory,
-                                    icon: Icon(Icons.keyboard_arrow_down),
-                                    iconSize: 28,
-                                    dropdownColor: Colors.transparent,
-                                    elevation: 0,
-                                    style: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    onChanged: (String? newValue) {
-                                      setState(() {
-                                        selectedCategory = newValue!;
-                                      });
-                                    },
-                                    padding: EdgeInsets.symmetric(horizontal: 20),
-
-                                    items: categories.map((String category) {
-                                      return DropdownMenuItem<String>(
-                                        value: category,
-                                        
-                                        child: Text(category),
-                                      );
-                                    }).toList(),
-                                  ),
-                                ),
+                                // DropdownButtonHideUnderline(
+                                //   child: DropdownButton<String>(
+                                //     isExpanded: true,
+                                //     value: selectedCategory,
+                                //     icon: Icon(Icons.keyboard_arrow_down),
+                                //     iconSize: 28,
+                                //     dropdownColor: Colors.transparent,
+                                //     elevation: 0,
+                                //     style: TextStyle(
+                                //       color: Colors.grey,
+                                //       fontSize: 16,
+                                //       fontWeight: FontWeight.bold,
+                                //     ),
+                                //     onChanged: (String? newValue) {
+                                //       setState(() {
+                                //         selectedCategory = newValue!;
+                                //       });
+                                //     },
+                                //     padding:
+                                //         EdgeInsets.symmetric(horizontal: 20),
+                                //     items: categories.map((String category) {
+                                //       return DropdownMenuItem<String>(
+                                //         value: category,
+                                //         child: Text(category),
+                                //       );
+                                //     }).toList(),
+                                //   ),
+                                // ),
                                 SizedBox(
                                   height: 15,
                                 ),
@@ -560,18 +563,18 @@ class _ExpenseScreenState extends State<ExpenseScreen>
     );
   }
 
-  void openCheckpointsBottomSheet(BuildContext context) {
+  void openAddExpenseBottomSheet(BuildContext context) {
     TextEditingController expenseAmount = TextEditingController();
     TextEditingController keyNote = TextEditingController();
     String? selectedCategory =
-        'Category 1'; // Variable to hold the selected category
+        'Travel'; // Variable to hold the selected category
 
     // Define the list of categories for the dropdown
     List<String> categories = [
-      'Category 1',
-      'Category 2',
-      'Category 3',
-      'Category 4'
+      'Travel',
+      'Food',
+      'Accomodation',
+      'Others'
     ];
 
     showModalBottomSheet(
@@ -650,7 +653,7 @@ class _ExpenseScreenState extends State<ExpenseScreen>
                             return DropdownMenuItem<String>(
                               value: category,
                               child: Container(
-                                  color: Colors.red, child: Text(category)),
+                                  color: Colors.white, child: Text(category)),
                             );
                           }).toList(),
                         ),

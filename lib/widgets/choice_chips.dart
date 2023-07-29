@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class CustomChoiceChips extends StatefulWidget {
-  
   final Map<String, IconData> choices;
   final String selectedChoice;
   final Function(String) onSelected;

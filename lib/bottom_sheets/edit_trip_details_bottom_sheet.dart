@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tripline/database/database_helper.dart';
 import 'package:tripline/imagehelpers/image_helper.dart';
+import 'package:tripline/messages/custom_toast.dart';
 import 'package:tripline/styles/text_styles.dart';
 import 'package:tripline/widgets/input_fields.dart';
 import 'package:tripline/widgets/other_widgets.dart';
@@ -47,7 +48,7 @@ class _EditTripDetailsBottomSheetState
   TextEditingController tripEndDateController = TextEditingController();
 
   TextEditingController tripTypeController = TextEditingController();
- 
+
   TextEditingController tripCompanionsController = TextEditingController();
 
   @override
@@ -57,10 +58,8 @@ class _EditTripDetailsBottomSheetState
     tripStartDateController.text = widget.tridpStartDate ?? '';
     tripEndDateController.text = widget.tridpEndDate ?? '';
     tripTypeController.text = widget.tripType ?? '';
-  
-    tripCompanionsController.text = widget.tripCompanions ?? '';
 
-    
+    tripCompanionsController.text = widget.tripCompanions ?? '';
 
     super.initState();
   }
@@ -142,6 +141,13 @@ class _EditTripDetailsBottomSheetState
                         await _saveUpdatedTripDetails();
                         widget.onTripUpdated;
                         Navigator.pop(context);
+                        showCustomToast(
+                          context,
+                          'Trip Edited Successfully',
+                          Icons.check_circle_rounded,
+                          Colors.green,
+                          height: 20,
+                        );
                       },
                       buttonText: 'SAVE',
                     ),
@@ -207,13 +213,11 @@ class _EditTripDetailsBottomSheetState
                       CoverImagePath = widget.tripCover;
                     });
                     print(CoverImagePath);
-                  } else if(imagePath.isNotEmpty){
+                  } else if (imagePath.isNotEmpty) {
                     setState(() {
                       CoverImagePath = imagePath;
                     });
                     print('****************');
-
-
                   }
                   Navigator.of(context).pop();
                 },
@@ -246,18 +250,16 @@ class _EditTripDetailsBottomSheetState
               InkWell(
                 onTap: () async {
                   String? imagePath = await ImageHelper.openGallery();
-                   if (imagePath!.isEmpty) {
+                  if (imagePath!.isEmpty) {
                     setState(() {
                       CoverImagePath = widget.tripCover;
                     });
                     print(CoverImagePath);
-                  } else if(imagePath.isNotEmpty){
+                  } else if (imagePath.isNotEmpty) {
                     setState(() {
                       CoverImagePath = imagePath;
                     });
                     print('****************');
-
-
                   }
                   Navigator.of(context).pop();
                 },

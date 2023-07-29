@@ -8,7 +8,8 @@ class ImageHelper {
   static Future<String?> openCamera() async {
     try {
       final picker = ImagePicker();
-      final XFile? pickedImage = await picker.pickImage(source: ImageSource.camera);
+      final XFile? pickedImage =
+          await picker.pickImage(source: ImageSource.camera);
 
       if (pickedImage != null) {
         String? croppedImagePath = await _cropImage(pickedImage.path);
@@ -29,7 +30,8 @@ class ImageHelper {
   static Future<String?> openGallery() async {
     try {
       final picker = ImagePicker();
-      final XFile? pickedImage = await picker.pickImage(source: ImageSource.gallery);
+      final XFile? pickedImage =
+          await picker.pickImage(source: ImageSource.gallery);
 
       if (pickedImage != null) {
         String? croppedImagePath = await _cropImage(pickedImage.path);

@@ -3,8 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tripline/database/database_helper.dart';
-import 'package:tripline/screens/navigation.dart';
-import 'package:tripline/screens/welcome_screen.dart';
+import 'package:tripline/navigation/navigation.dart';
+import 'package:tripline/screens/welcome_screen/welcome_screen.dart';
+import 'package:tripline/styles/color_styles.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -59,6 +60,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: CustomColors.primaryColor,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -66,7 +68,7 @@ class _SplashScreenState extends State<SplashScreen> {
             SizedBox(height: 20),
             // Add your logo widget here
             SvgPicture.asset(
-              'assets/logo/tripline-logo.svg',
+              'assets/logo/tripline-logo-white.svg',
               height: 200,
             ),
             SizedBox(height: 20),

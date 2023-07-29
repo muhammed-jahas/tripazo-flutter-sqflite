@@ -2,15 +2,17 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:tripline/bottom_sheets/clear_app_data_bottomsheet.dart';
+import 'package:tripline/bottom_sheets/edit_profile_details_bottomsheet.dart';
 import 'package:tripline/database/database_helper.dart';
-import 'package:tripline/screens/drawer_screen.dart';
+import 'package:tripline/main.dart';
+import 'package:tripline/screens/drawer_screen/drawer_screen.dart';
 import 'package:tripline/bottom_sheets/sign_out_bottom_sheet.dart';
-import 'package:tripline/screens/edit_profile_details_bottomsheet.dart';
 import 'package:tripline/styles/color_styles.dart';
 import 'package:tripline/styles/text_styles.dart';
 
+// ignore: must_be_immutable
 class SettingsScreen extends StatefulWidget {
-  final Map<String, dynamic> loggedInUserData;
+  Map<String, dynamic> loggedInUserData;
   SettingsScreen({required this.loggedInUserData});
 
   @override
@@ -22,57 +24,40 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   void initState() {
-    
     super.initState();
+    fetchProfileDetails();
   }
+
   void _openDrawer() {
     _scaffoldKey.currentState?.openDrawer();
   }
-  int? currentUserId;
-  void _updateProfileDetails(Map<String, dynamic>? updatedDetails) async {
-    if (updatedDetails != null && widget.loggedInUserData['userId'] != null) {
-      
-      // Update the trip name in the database
-      await DatabaseHelper.instance
-          .updateProfileRecord(widget.loggedInUserData['userId'], updatedDetails);
-      // Fetch the updated trip details from the database
-      await fetchProfileDetails(updatedDetails);
-      print('Finished');
+
+  Future<void> fetchProfileDetails() async {
+    final userId = widget.loggedInUserData['userId'];
+    if (userId != null) {
+      final userDetails = await DatabaseHelper.instance.getUserDetails(userId);
+      if (userDetails.isNotEmpty) {
+        setState(() {
+          widget.loggedInUserData =
+              userDetails.first; // Update with fetched data
+        });
+      }
     }
   }
-  Future<void> fetchProfileDetails(Map<String, dynamic>? updatedDetails) async {
-    widget.loggedInUserData['userName'] = updatedDetails!['userName'];
-    setState(() {
-      
-    });
 
-    // final userId = widget.loggedInUserData['userId'];
-    // if (userId != null) {
-    //   final userDetails = await DatabaseHelper.instance.getUserDetails(userId);
-    //   setState(() {
-       
-    //   });
-    //   // currentUserId = currentUserId;
-      
-    // }
-  }
-
-
-  bool _switchValue = true;
   void _showSignOutBox(BuildContext context) {
     openSignOutBox(context);
   }
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, dynamic> loggedInUserData = widget.loggedInUserData;
-    final String? profileImagePath = loggedInUserData['userprofile'];
+    final String? profileImagePath = widget.loggedInUserData['userprofile'];
 
     return SafeArea(
       child: Scaffold(
         key: _scaffoldKey,
         backgroundColor: Color(0xFFEEEEEE),
-        drawer: AppDrawer(loggedInUserData: loggedInUserData),
+        drawer: AppDrawer(loggedInUserData: widget.loggedInUserData),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -115,63 +100,47 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     radius: 40,
                   ),
                   SizedBox(width: 25),
-                  FutureBuilder(
-                    future: DatabaseHelper.instance.getUserDataById(loggedInUserData['userId'] ?? 0),
-                    builder: (context,snapshot) {
-                       if(snapshot.connectionState == ConnectionState.waiting){
-                        return CircularProgressIndicator();
-                      }
-                      else if(snapshot.data == null || snapshot.hasError){
-                        return Text('user not found');
-
-                      }
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '${loggedInUserData['userName']}',
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w600,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${widget.loggedInUserData['userName']}',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      SizedBox(height: 5),
+                      Text(
+                        '${widget.loggedInUserData['userEmail']}',
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 16,
+                        ),
+                      ),
+                      SizedBox(height: 5),
+                      InkWell(
+                        onTap: () {
+                          _openEditProfileDetailsBottomSheet(context);
+                          setState(() {});
+                        },
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.edit_outlined,
+                              size: 14,
                             ),
-                          ),
-                          SizedBox(height: 5),
-                          Text(
-                            '${loggedInUserData['userEmail']}',
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 16,
+                            SizedBox(width: 5),
+                            Text(
+                              'Edit Profile',
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
                             ),
-                          ),
-                          SizedBox(height: 5),
-                          InkWell(
-                            onTap: () {
-                              _openEditProfileDetailsBottomSheet(context);
-                              setState(() {
-                                
-                              });
-                              
-
-                            },
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.edit_outlined,
-                                  size: 14,
-                                ),
-                                SizedBox(width: 5),
-                                Text(
-                                  'Edit Profile',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      );
-                    }
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -267,7 +236,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   Navigator.of(context).pushNamed('Help');
                 },
                 leading: Icon(
-                  
                   Icons.live_help_outlined,
                   color: Colors.black,
                 ),
@@ -299,24 +267,74 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
     );
   }
-  void _openEditProfileDetailsBottomSheet(BuildContext context) {
-    print('***********');
-  
-    showModalBottomSheet(
+
+  void _openEditProfileDetailsBottomSheet(BuildContext context) async {
+    final updatedDetails = await showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       builder: (BuildContext context) {
         return EditProfileDetailsBottomSheet(
-          userId: widget.loggedInUserData['userId'],
-          userName: widget.loggedInUserData['userName'],
-          userEmail: widget.loggedInUserData['userEmail'],
-         onTripUpdated: _updateProfileDetails,
+          loggedInUserData: widget.loggedInUserData,
+          onProfileDetailsUpdated: _updateProfileDetails,
         );
       },
     );
+
+    // Check if updatedDetails is not null and update the UI accordingly
+    if (updatedDetails != null) {
+      setState(() {
+        widget.loggedInUserData['userName'] =
+            updatedDetails['userName'] ?? widget.loggedInUserData['userName'];
+        widget.loggedInUserData['userEmail'] =
+            updatedDetails['userEmail'] ?? widget.loggedInUserData['userEmail'];
+        // Add other fields if needed
+      });
+    }
   }
-  
-  void openClearBottomSheet(BuildContext context, Map<String, dynamic> loggedInUserData) {
+
+  void _updateProfileDetails(Map<String, dynamic> updatedDetails) async {
+    // ignore: unnecessary_null_comparison
+    if (updatedDetails != null && widget.loggedInUserData['userId'] != null) {
+      // Create a new map with the updated userName and userEmail
+      Map<String, dynamic> updatedUserData = {
+        ...widget.loggedInUserData,
+        'userName':
+            updatedDetails['userName'] ?? widget.loggedInUserData['userName'],
+        'userEmail':
+            updatedDetails['userEmail'] ?? widget.loggedInUserData['userEmail'],
+        // Add other fields if needed
+      };
+
+      // Update the UI with the new values immediately
+      setState(() {
+        widget.loggedInUserData = updatedUserData;
+      });
+
+      // Update the data in the database
+      await DatabaseHelper.instance.updateProfileRecord(
+        widget.loggedInUserData['userId'],
+        updatedUserData,
+      );
+
+      print('Finished');
+
+      // Navigate to 'Navigation' screen and wait for the result
+      final result = await Navigator.pushNamed(context, 'Navigation',
+          arguments: NavigationArguments(widget.loggedInUserData, 3));
+
+      // Check if the result is not null and update the UI accordingly
+      if (result != null && result is Map<String, dynamic>) {
+        setState(() {
+          widget.loggedInUserData['userName'] = result['userName'];
+          widget.loggedInUserData['userEmail'] = result['userEmail'];
+          // Add other fields if needed
+        });
+      }
+    }
+  }
+
+  void openClearBottomSheet(
+      BuildContext context, Map<String, dynamic> loggedInUserData) {
     clearAppBottomSheet(context, loggedInUserData);
   }
 }

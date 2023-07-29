@@ -6,11 +6,10 @@ import 'package:tripline/screens/add_trip_form_screens/add_trip_screen1.dart';
 import 'package:tripline/screens/add_trip_form_screens/add_trip_screen2.dart';
 import 'package:tripline/screens/add_trip_form_screens/add_trip_screen3.dart';
 import 'package:tripline/screens/add_trip_form_screens/add_trip_screen4.dart';
-import 'package:tripline/screens/navigation.dart';
+import 'package:tripline/messages/custom_toast.dart';
+import 'package:tripline/navigation/navigation.dart';
 import 'package:tripline/styles/color_styles.dart';
 import 'package:tripline/widgets/other_widgets.dart';
-
-
 
 class AddTripScreen extends StatefulWidget {
   final Map<String, dynamic> loggedInUserData;
@@ -23,6 +22,7 @@ class AddTripScreen extends StatefulWidget {
 class _AddTripScreenState extends State<AddTripScreen> {
   Map<String, dynamic> SuperdataMap = {};
   final globalformKey = GlobalKey<FormState>();
+
   int _currentStep = 0;
 
   List<Widget> screens = [];
@@ -52,7 +52,6 @@ class _AddTripScreenState extends State<AddTripScreen> {
 
   @override
   Widget build(BuildContext context) {
-    
     final String? profileImagePath = widget.loggedInUserData['userprofile'];
     final int? userId = widget.loggedInUserData['userId'];
 
@@ -76,11 +75,11 @@ class _AddTripScreenState extends State<AddTripScreen> {
                           TextStyle(fontSize: 32, fontWeight: FontWeight.w700),
                     ),
                     CircleAvatar(
-                        backgroundImage: profileImagePath != null
-                            ? FileImage(File(profileImagePath))
-                            : null,
-                        radius: 25,
-                      ),
+                      backgroundImage: profileImagePath != null
+                          ? FileImage(File(profileImagePath))
+                          : null,
+                      radius: 25,
+                    ),
                   ],
                 ),
               ),
@@ -148,7 +147,7 @@ class _AddTripScreenState extends State<AddTripScreen> {
                                 buttonText: _currentStep == screens.length - 1
                                     ? 'Finish'
                                     : 'Continue',
-                                onPressed: () {
+                                onPressed: () async {
                                   if (globalformKey.currentState!.validate()) {
                                     print('******true');
                                     _currentStep == screens.length - 1
@@ -244,18 +243,18 @@ class _AddTripScreenState extends State<AddTripScreen> {
     };
     int tripId = await DatabaseHelper.instance.insertTripRecord(tripRecord);
     print(tripId);
-     print('------tripRecord------');
+    print('------tripRecord------');
     print(tripRecord);
 
     Map<String, dynamic> ExpenseOverview = {
       DatabaseHelper.columnTripId: tripId,
-      DatabaseHelper.columnTripBalance:0,
-      DatabaseHelper.columnExpenseTotal:0,
-      DatabaseHelper.columnExpensePerPerson:0,
-      DatabaseHelper.columnExpenseCount:0,
-      
+      DatabaseHelper.columnTripBalance: 0,
+      DatabaseHelper.columnExpenseTotal: 0,
+      DatabaseHelper.columnExpensePerPerson: 0,
+      DatabaseHelper.columnExpenseCount: 0,
     };
-    final expenseOverview = await DatabaseHelper.instance.insertExpenseOverview(ExpenseOverview);
+    final expenseOverview =
+        await DatabaseHelper.instance.insertExpenseOverview(ExpenseOverview);
     print('------ExpenseOverview------');
     print(expenseOverview);
 
@@ -273,7 +272,7 @@ class _AddTripScreenState extends State<AddTripScreen> {
 
     // Insert activities
     // List<String> activities = SuperdataMap[DatabaseHelper.columnTripActivity];
-    
+
     //   for (String activity in activities) {
     //     Map<String, dynamic> activityRecord = {
     //       DatabaseHelper.columnTripId: tripId,
@@ -283,15 +282,20 @@ class _AddTripScreenState extends State<AddTripScreen> {
     //     print('--------88888------');
     //     print(activityRecord);
     //   }
-    
 
     print('Data inserted into database');
     print(SuperdataMap);
     print('*************');
+    showCustomToast(
+      context,
+      'Trip Added Successfully',
+      Icons.check_circle_rounded,
+      Colors.green,
+    );
     await Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(
-        builder: (context) => NavigationItems(widget.loggedInUserData),
+        builder: (context) => NavigationItems(widget.loggedInUserData, 0),
       ),
       (route) => false,
     );

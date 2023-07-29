@@ -3,14 +3,15 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:tripline/bottom_sheets/edit_trip_details_bottom_sheet.dart';
 import 'package:tripline/imagehelpers/image_helper.dart';
 import 'package:tripline/main.dart';
+import 'package:tripline/messages/custom_toast.dart';
 import 'package:tripline/screens/add_trip_form_screens/add_trip_main_screen.dart';
-import 'package:tripline/screens/drawer_screen.dart';
+import 'package:tripline/screens/drawer_screen/drawer_screen.dart';
 import 'package:tripline/database/database_helper.dart';
-import 'package:tripline/screens/edit_trip_details_bottom_sheet.dart';
-import 'package:tripline/screens/expense_screen.dart';
-import 'package:tripline/screens/navigation.dart';
+import 'package:tripline/screens/expense_modules/expense_screen.dart';
+import 'package:tripline/navigation/navigation.dart';
 import 'package:tripline/styles/color_styles.dart';
 import 'package:tripline/styles/text_styles.dart';
 import 'package:tripline/widgets/other_widgets.dart';
@@ -119,16 +120,13 @@ class _TripDetailsScreenState extends State<TripDetailsScreen> {
     final loggedInUserData = widget.loggedInUserData;
     final String? profileImagePath = loggedInUserData['userprofile'];
 
-    SystemChrome.setSystemUIOverlayStyle(
-    SystemUiOverlayStyle(
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.white,
-    )
-    );
+    ));
 
     return WillPopScope(
       onWillPop: _onWillPop,
       child: SafeArea(
-        
         child: Scaffold(
           key: _scaffoldKey,
           appBar: AppBar(
@@ -377,14 +375,14 @@ class _TripDetailsScreenState extends State<TripDetailsScreen> {
                             height: 15,
                           ),
                           Text(
-                            '₹ ${tripDetails!['tripBudget'].toString()}',
+                            '₹ ${tripDetails!['tripBudget'] != null && tripDetails!['tripBudget'].toString().isNotEmpty ? tripDetails!['tripBudget'].toString() : '0'}',
                             style: CustomTextStyles.titlewhite2,
                           ),
                           SizedBox(
                             height: 15,
                           ),
                           Text(
-                            'Balance: ₹ ${tripDetails!['tripBudget'].toString()}',
+                            'Balance: ₹ ${tripDetails!['tripBudget'] != null && tripDetails!['tripBudget'].toString().isNotEmpty ? tripDetails!['tripBudget'].toString() : '0'}',
                             style: CustomTextStyles.titlewhite1,
                           ),
                         ],
@@ -771,14 +769,14 @@ class _TripDetailsScreenState extends State<TripDetailsScreen> {
                   child: CustomSecondaryButton(
                     buttonText: 'Add New Trip',
                     onPressed: () {
-                      //       Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => AddTripScreen(
-                      //       loggedInUserData: widget.loggedInUserData,
-                      //     ),
-                      //   ),
-                      // );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AddTripScreen(
+                            loggedInUserData: widget.loggedInUserData,
+                          ),
+                        ),
+                      );
                       print(tripDetails);
                     },
                   ),
@@ -954,6 +952,12 @@ class _TripDetailsScreenState extends State<TripDetailsScreen> {
                           ),
                           (route) => false,
                         );
+                        showCustomToast(
+                          context,
+                          'Trip Deleted Successfully',
+                          Icons.check_circle_rounded,
+                          Colors.red,
+                        );
                         // if (Platform.isAndroid) {
                         //   SystemNavigator.pop();
                         // } else if (Platform.isIOS) {
@@ -1066,4 +1070,3 @@ class _TripDetailsScreenState extends State<TripDetailsScreen> {
     );
   }
 }
-

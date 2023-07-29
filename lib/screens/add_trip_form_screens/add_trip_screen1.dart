@@ -29,7 +29,7 @@ class _Screen1State extends State<Screen1> {
     'Ship': Icons.directions_boat_filled_outlined,
     'Car': Icons.car_crash_outlined,
     'Bike': Icons.directions_bike_outlined,
-    'Other': Icons.traffic_rounded,
+    'Other': Icons.swap_vertical_circle_outlined,
   };
 
   @override
@@ -55,7 +55,7 @@ class _Screen1State extends State<Screen1> {
   Widget build(BuildContext context) {
     return Form(
       key: widget.formKey,
-      autovalidateMode: AutovalidateMode.onUserInteraction,    
+      autovalidateMode: AutovalidateMode.disabled,
       child: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 20),
@@ -84,6 +84,7 @@ class _Screen1State extends State<Screen1> {
                 inputControl: startDate,
                 inputIcon: Icons.calendar_today_outlined,
                 onChanged: (_) => updateDataMap(),
+                customValidator: AddTripValidator.validateStartDate,
               ),
               SizedBox(height: 15),
               CustomCalendarInputField(

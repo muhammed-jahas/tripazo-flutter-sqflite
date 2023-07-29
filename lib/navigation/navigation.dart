@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
-
-
-import 'package:tripline/screens/catalog_screen.dart';
-import 'package:tripline/screens/home_screen.dart';
-import 'package:tripline/screens/settings_screen.dart';
-import 'package:tripline/screens/tools_screen.dart';
+import 'package:tripline/screens/catalog_screens/catalog_screen.dart';
+import 'package:tripline/screens/home_screens/home_screen.dart';
+import 'package:tripline/screens/settings_screens/settings_screen.dart';
+import 'package:tripline/screens/tools_screens/tools_screen.dart';
 import 'package:tripline/styles/color_styles.dart';
 
 // ...
@@ -34,30 +32,27 @@ class _NavigationItemsState extends State<NavigationItems> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: _currentIndex,
-        children: [
-          HomeScreen(loggedInUserData: widget.loggedInUserData),
-          ToolsParentScreen(loggedInUserData: widget.loggedInUserData),
-          CatalogScreen(loggedInUserData: widget.loggedInUserData),
-          SettingsScreen(loggedInUserData: widget.loggedInUserData),
-        ],
+      body: SafeArea(
+        child: IndexedStack(
+          index: _currentIndex,
+          children: [
+            HomeScreen(loggedInUserData: widget.loggedInUserData),
+            ToolsParentScreen(loggedInUserData: widget.loggedInUserData),
+            CatalogScreen(loggedInUserData: widget.loggedInUserData),
+            SettingsScreen(loggedInUserData: widget.loggedInUserData),
+          ],
+        ),
       ),
       bottomNavigationBar: Container(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
         height: 80,
-        
         decoration: BoxDecoration(
-           color: Colors.white,
-          border: Border(
-            top: BorderSide(
+            color: Colors.white,
+            border: Border(
+                top: BorderSide(
               color: Colors.grey.shade100,
-            )
-
-          )
-        ),
+            ))),
         child: GNav(
-      
           // rippleColor: Colors.grey.shade800,
           // hoverColor: Colors.grey.shade700,
           // haptic: true,
@@ -68,7 +63,7 @@ class _NavigationItemsState extends State<NavigationItems> {
           // curve: Curves.easeOutExpo,
           duration: Duration(milliseconds: 100),
           gap: 8,
-         
+
           activeColor: CustomColors.primaryColor.shade800,
           iconSize: 24,
           color: Colors.grey.shade500,
@@ -84,7 +79,6 @@ class _NavigationItemsState extends State<NavigationItems> {
             GButton(
               icon: Icons.grid_view_outlined,
               text: 'Home',
-      
             ),
             GButton(
               icon: Icons.layers_outlined,

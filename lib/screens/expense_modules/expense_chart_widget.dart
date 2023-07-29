@@ -14,7 +14,6 @@ class ChartCustom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      
       child: Center(
         child: Container(
           height: 250,
@@ -25,7 +24,8 @@ class ChartCustom extends StatelessWidget {
               isVisible: false, // Hide the bottom axis
             ),
             primaryYAxis: NumericAxis(
-              majorGridLines: MajorGridLines(width: 0), // Remove horizontal gridlines
+              majorGridLines:
+                  MajorGridLines(width: 0), // Remove horizontal gridlines
               minimum: 0,
               maximum: currentExpense,
               isVisible: false,
@@ -39,7 +39,7 @@ class ChartCustom extends StatelessWidget {
                   isVisible: false, // Disable data labels on bars
                 ),
                 // borderRadius: BorderRadius.circular(4), // Set a border radius for the bars
-                
+
                 width: 0.4, // Reduce the width of the bars
                 pointColorMapper: (Expense expense, _) {
                   // Set different colors for each bar
@@ -61,7 +61,6 @@ class ChartCustom extends StatelessWidget {
                 CartesianChartAnnotation(
                   widget: Container(
                     padding: const EdgeInsets.only(bottom: 12),
-                    
                     child: Text(
                       expense.amount.toString(),
                       style: TextStyle(color: Colors.black),

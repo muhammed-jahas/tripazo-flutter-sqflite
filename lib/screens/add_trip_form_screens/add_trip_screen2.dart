@@ -46,7 +46,7 @@ class _Screen2State extends State<Screen2> {
             ClipRRect(
               borderRadius: BorderRadius.circular(4),
               child: Container(
-                height: 200,
+                height: 250,
                 child: GridView.count(
                   crossAxisCount: 1,
                   childAspectRatio: (1 / .8),
@@ -68,20 +68,23 @@ class _Screen2State extends State<Screen2> {
                         child: _CoverImagePath.trim().isNotEmpty
                             ? null
                             : Container(
-                                padding: EdgeInsets.only(top: 50),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Icon(Icons.drive_folder_upload_outlined,
-                                        size: 40, color: Colors.grey.shade700),
-                                    SizedBox(height: 10),
-                                    Text(
-                                      'Choose / Upload\na cover image',
-                                      style: CustomTextStyles.GridText1,
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ],
+                                child: Center(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      SizedBox(height: 80),
+                                      Icon(Icons.drive_folder_upload_outlined,
+                                          size: 40,
+                                          color: Colors.grey.shade700),
+                                      SizedBox(height: 10),
+                                      Text(
+                                        'Choose / Upload\na cover image',
+                                        style: CustomTextStyles.GridText1,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                       ),
@@ -249,11 +252,13 @@ class _Screen2State extends State<Screen2> {
                         Row(
                           children: [
                             Expanded(
-                              child: CustomAlertButton(buttonText: 'Cancel', onPressed: (){
-                                Navigator.of(context).pop();
-                              }),
+                              child: CustomAlertButton(
+                                  buttonText: 'Cancel',
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  }),
                             ),
-                             SizedBox(width: 15),
+                            SizedBox(width: 15),
                             Expanded(
                               child: CustomSecondaryButton(
                                 buttonText: 'Add',
@@ -265,14 +270,16 @@ class _Screen2State extends State<Screen2> {
                                           checkPointssheet[index] =
                                               tripCheckpoints.text;
                                         } else {
-                                          checkPointssheet.add(tripCheckpoints.text);
+                                          checkPointssheet
+                                              .add(tripCheckpoints.text);
                                         }
-                            
+
                                         tripCheckpoints.clear();
                                         showError = false;
                                       });
                                       setState(() {
-                                        checkpoints = List.from(checkPointssheet);
+                                        checkpoints =
+                                            List.from(checkPointssheet);
                                         updateDataMap();
                                       });
                                     } else {

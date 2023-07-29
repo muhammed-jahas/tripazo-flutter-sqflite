@@ -32,7 +32,7 @@ class TripViewUpcoming extends StatelessWidget {
         final tripData = snapshot.data ?? [];
         if (tripData.isEmpty) {
           return Container(
-            height: 150,
+            height: 200,
             alignment: Alignment.center,
             child: Text(
               'No upcoming trips',
@@ -63,16 +63,16 @@ class TripViewUpcoming extends StatelessWidget {
             ClipRRect(
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 20),
-                 height: 155,
+
                 // color: Colors.black,
                 child: GridView.builder(
+                  shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2, // 2 items per row
                     crossAxisSpacing: 15,
                     mainAxisSpacing: 15,
-                     childAspectRatio: 1 / .8,
-            
+                    childAspectRatio: 1 / .8,
                   ),
                   itemCount: tripData.length,
                   itemBuilder: (BuildContext context, int index) {
@@ -95,45 +95,42 @@ class TripViewUpcoming extends StatelessWidget {
   }
 }
 
-
 class TripCard extends StatelessWidget {
   final int tripId;
   final String destination;
   final String startDate;
   final String tripCover;
   final Map<String, dynamic> loggedInUserData;
-  const TripCard({
-    Key? key,
-    required this.tripId,
-    required this.destination,
-    required this.startDate,
-    required this.tripCover,
-    required this.loggedInUserData
-  }) : super(key: key);
+  const TripCard(
+      {Key? key,
+      required this.tripId,
+      required this.destination,
+      required this.startDate,
+      required this.tripCover,
+      required this.loggedInUserData})
+      : super(key: key);
 
   @override
-
   Widget build(BuildContext context) {
     return Stack(
-
       children: [
         InkWell(
           onTap: () {
-        Navigator.pushNamed(context, 'tripdetailsscreen',arguments: TripDetailsScreenArguments(loggedInUserData, tripId),);
-        },
+            Navigator.pushNamed(
+              context,
+              'tripdetailsscreen',
+              arguments: TripDetailsScreenArguments(loggedInUserData, tripId),
+            );
+          },
           child: ClipRRect(
-            
             borderRadius: BorderRadius.circular(6),
             child: Container(
-             
               decoration: BoxDecoration(
-                
                 image: DecorationImage(
                   image: FileImage(File(tripCover)),
                   fit: BoxFit.cover,
                 ),
               ),
-             
             ),
           ),
         ),

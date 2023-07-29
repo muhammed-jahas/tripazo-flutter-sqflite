@@ -1,15 +1,12 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:tripline/database/database_helper.dart';
 import 'package:tripline/styles/text_styles.dart';
 
-
 // ignore: must_be_immutable
 class Screen4 extends StatefulWidget {
   Map<String, dynamic> dataMap;
-  
-  Screen4({required this.dataMap} );
+
+  Screen4({required this.dataMap});
   @override
   State<Screen4> createState() => _Screen4State();
 }
@@ -22,7 +19,7 @@ class _Screen4State extends State<Screen4> {
     super.dispose();
   }
 
-  void updateDataMap() {  
+  void updateDataMap() {
     widget.dataMap[DatabaseHelper.columnTripNotes] = Notes.text;
   }
 
@@ -55,7 +52,6 @@ class _Screen4State extends State<Screen4> {
                       border: InputBorder.none,
                     ),
                   ),
-                  
                   Positioned(
                     top: 8,
                     right: 8,

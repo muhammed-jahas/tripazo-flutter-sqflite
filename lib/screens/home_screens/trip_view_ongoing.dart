@@ -5,14 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:tripline/database/database_helper.dart';
 import 'package:tripline/main.dart';
 import 'package:tripline/styles/text_styles.dart';
+
 final List<IconData> TravelIcons = [
-    Icons.flight_takeoff_rounded,
-    Icons.directions_train_sharp,
-    Icons.directions_boat_filled_outlined,
-    Icons.car_crash_outlined,
-    Icons.directions_bike_outlined,
-    Icons.traffic_rounded,
-  ];
+  Icons.flight_takeoff_rounded,
+  Icons.directions_train_sharp,
+  Icons.directions_boat_filled_outlined,
+  Icons.car_crash_outlined,
+  Icons.directions_bike_outlined,
+  Icons.traffic_rounded,
+];
+
 class TripViewOngoing extends StatefulWidget {
   final Map<String, dynamic> loggedInUserData;
 
@@ -74,7 +76,6 @@ class _TripViewOngoingState extends State<TripViewOngoing> {
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: ListView.builder(
                 shrinkWrap: true,
-               
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: tripData.length,
                 itemBuilder: (BuildContext context, int index) {
@@ -97,7 +98,6 @@ class _TripViewOngoingState extends State<TripViewOngoing> {
   }
 }
 
-
 class TripCard extends StatelessWidget {
   final int tripId;
   final String destination;
@@ -105,18 +105,17 @@ class TripCard extends StatelessWidget {
   final String tripCover;
   final int tripTransporatation;
   final Map<String, dynamic> loggedInUserData;
-  const TripCard({
-    Key? key,
-    required this.tripId,
-    required this.destination,
-    required this.startDate,
-    required this.tripCover,
-    required this.tripTransporatation,
-    required this.loggedInUserData
-  }) : super(key: key);
+  const TripCard(
+      {Key? key,
+      required this.tripId,
+      required this.destination,
+      required this.startDate,
+      required this.tripCover,
+      required this.tripTransporatation,
+      required this.loggedInUserData})
+      : super(key: key);
 
   @override
-
   Widget build(BuildContext context) {
     return Column(
       children: [
@@ -124,13 +123,16 @@ class TripCard extends StatelessWidget {
           children: [
             InkWell(
               onTap: () {
-            Navigator.pushNamed(context, 'tripdetailsscreen',arguments: TripDetailsScreenArguments(loggedInUserData, tripId),);
-            },
+                Navigator.pushNamed(
+                  context,
+                  'tripdetailsscreen',
+                  arguments:
+                      TripDetailsScreenArguments(loggedInUserData, tripId),
+                );
+              },
               child: ClipRRect(
-                
                 borderRadius: BorderRadius.circular(6),
                 child: Container(
-                  
                   height: 230,
                   decoration: BoxDecoration(
                     image: DecorationImage(
@@ -138,7 +140,6 @@ class TripCard extends StatelessWidget {
                       fit: BoxFit.cover,
                     ),
                   ),
-                 
                 ),
               ),
             ),
@@ -209,10 +210,11 @@ class TripCard extends StatelessWidget {
                 ),
               ),
             ),
-            
           ],
         ),
-        SizedBox(height: 15,),
+        SizedBox(
+          height: 15,
+        ),
       ],
     );
   }

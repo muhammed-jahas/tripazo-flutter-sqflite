@@ -1,10 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:tripline/screens/drawer_screen.dart';
+import 'package:tripline/screens/drawer_screen/drawer_screen.dart';
 import 'package:tripline/bottom_sheets/sign_out_bottom_sheet.dart';
-import 'package:tripline/screens/tool_child_fuel_screen.dart';
-import 'package:tripline/screens/tool_child_guidelines_screen.dart';
+import 'package:tripline/screens/tools_screens/tool_child_fuel_screen.dart';
+import 'package:tripline/screens/tools_screens/tool_child_guidelines_screen.dart';
 import 'package:tripline/styles/text_styles.dart';
 
 class ToolsParentScreen extends StatefulWidget {
@@ -99,7 +99,8 @@ class _ToolsParentScreenState extends State<ToolsParentScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => PdfViewerPage(pdfPath: 'assets/travel-guidelines.pdf'), // Pass the title to the child screen
+                            builder: (context) =>
+                                TravelGuidelines(), // Pass the title to the child screen
                           ),
                         );
                       },

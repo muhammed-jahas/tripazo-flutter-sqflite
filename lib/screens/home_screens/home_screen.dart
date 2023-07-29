@@ -5,11 +5,11 @@ import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
 import 'package:tripline/database/database_helper.dart';
 import 'package:tripline/screens/add_trip_form_screens/add_trip_main_screen.dart';
-import 'package:tripline/screens/drawer_screen.dart';
-import 'package:tripline/screens/search_screen.dart';
-import 'package:tripline/screens/trip_view_ongoing.dart';
-import 'package:tripline/screens/trip_view_recent.dart';
-import 'package:tripline/screens/trip_view_upcoming.dart';
+import 'package:tripline/screens/drawer_screen/drawer_screen.dart';
+import 'package:tripline/screens/search_screens/search_screen.dart';
+import 'package:tripline/screens/home_screens/trip_view_ongoing.dart';
+import 'package:tripline/screens/home_screens/trip_view_recent.dart';
+import 'package:tripline/screens/home_screens/trip_view_upcoming.dart';
 import 'package:tripline/styles/text_styles.dart';
 import 'package:tripline/widgets/other_widgets.dart';
 // Import the bottom sheet widget
@@ -27,7 +27,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   String? profileImagePath;
   bool _isLoading = true;
-  bool _isSearching = false;
 
   void _toggleSearch() {
     Navigator.push(
@@ -204,9 +203,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ConnectionState.waiting) {
                                     return Container(
                                       alignment: Alignment.center,
-                                      height: MediaQuery.of(context)
-                                          .size
-                                          .height,
+                                      height:
+                                          MediaQuery.of(context).size.height,
                                       color: Colors.white,
                                       child: CircularProgressIndicator(),
                                     );
@@ -242,10 +240,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ConnectionState.waiting) {
                                     return Container(
                                       alignment: Alignment.center,
-                                      height: MediaQuery.of(context)
-                                              .size
-                                              .height -
-                                          200,
+                                      height:
+                                          MediaQuery.of(context).size.height -
+                                              200,
                                       color: Colors.white,
                                       child: CircularProgressIndicator(),
                                     );
@@ -281,10 +278,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ConnectionState.waiting) {
                                     return Container(
                                       alignment: Alignment.center,
-                                      height: MediaQuery.of(context)
-                                              .size
-                                              .height -
-                                          200,
+                                      height:
+                                          MediaQuery.of(context).size.height -
+                                              200,
                                       color: Colors.white,
                                       child: CircularProgressIndicator(),
                                     );
@@ -332,7 +328,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }) {
     if (tripData.isEmpty) {
       return Container(
-        height: 150,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -347,7 +342,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             SizedBox(
-              height: 25,
+              height: 60,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -362,6 +357,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 SizedBox(), // This will push the "emptyMessage" to the center
               ],
+            ),
+            SizedBox(
+              height: 40,
             ),
           ],
         ),
@@ -383,7 +381,7 @@ class _HomeScreenState extends State<HomeScreen> {
       // color: Colors.amber,
 
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Lottie.asset('assets/hero_animation.json'),
@@ -413,6 +411,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               },
             ),
+          ),
+          SizedBox(
+            height: 30,
           ),
         ],
       ),

@@ -1,9 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:tripline/database/database_helper.dart'; // Import your DatabaseHelper class
-import 'package:tripline/screens/trip_search_retrieve.dart';
-import 'package:tripline/widgets/other_widgets.dart'; // Import the Trip model
+import 'package:tripline/database/database_helper.dart';
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -22,7 +20,8 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   Future<void> _loadAllTrips() async {
-    List<Map<String, dynamic>> trips = await DatabaseHelper.instance.readAllTrips();
+    List<Map<String, dynamic>> trips =
+        await DatabaseHelper.instance.readAllTrips();
     setState(() {
       allTrips = trips;
     });
@@ -35,18 +34,21 @@ class _SearchScreenState extends State<SearchScreen> {
         showEmptyMessage = true; // When search bar is empty
       } else {
         searchResults = allTrips
-            .where((trip) => trip['tripName'].toLowerCase().contains(searchText.toLowerCase()))
+            .where((trip) => trip['tripName']
+                .toLowerCase()
+                .contains(searchText.toLowerCase()))
             .toList();
-        showEmptyMessage = searchResults.isEmpty; // When search results are empty
+        showEmptyMessage =
+            searchResults.isEmpty; // When search results are empty
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Column(
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
           children: [
             Padding(
               padding: const EdgeInsets.all(20.0),
@@ -108,6 +110,3 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 }
-
-
-

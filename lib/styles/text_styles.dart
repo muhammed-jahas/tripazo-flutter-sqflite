@@ -11,7 +11,7 @@ class CustomTextStyles {
     fontWeight: FontWeight.w400,
     color: Colors.black,
   );
-   static const TextStyle titlenormal2 = TextStyle(
+  static const TextStyle titlenormal2 = TextStyle(
     fontSize: 12,
     fontWeight: FontWeight.w400,
     color: Colors.black,
@@ -30,14 +30,13 @@ class CustomTextStyles {
     fontSize: 20,
     fontWeight: FontWeight.w500,
     color: Colors.white,
-    
   );
   static const TextStyle titlewhitenormal = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w400,
     color: Colors.white,
   );
-  
+
   static const TextStyle title2 = TextStyle(
     fontSize: 26,
     fontWeight: FontWeight.bold,
