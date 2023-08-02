@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:tripline/database/database_helper.dart';
-import 'package:tripline/messages/custom_toast.dart';
-import 'package:tripline/navigation/navigation.dart';
-import 'package:tripline/validations/signin_validations.dart';
-import 'package:tripline/widgets/other_widgets.dart';
-import 'package:tripline/widgets/input_fields.dart';
+import 'package:tripazo/database/database_helper.dart';
+import 'package:tripazo/messages/custom_toast.dart';
+import 'package:tripazo/navigation/navigation.dart';
+import 'package:tripazo/validations/signin_validations.dart';
+import 'package:tripazo/widgets/other_widgets.dart';
+import 'package:tripazo/widgets/input_fields.dart';
 
 class SigninScreen extends StatefulWidget {
   SigninScreen({Key? key}) : super(key: key);
@@ -195,7 +195,7 @@ class _SigninScreenState extends State<SigninScreen> {
                   width: double.infinity,
                   color: Color(0xFFEEEEEE),
                   child: SvgPicture.asset(
-                    'assets/logo/tripline-logo-2.svg',
+                    'assets/logo/tripazo-logo-2.svg',
                     height: 30,
                   ),
                 ),

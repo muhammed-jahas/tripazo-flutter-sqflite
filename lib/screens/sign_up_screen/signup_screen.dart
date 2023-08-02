@@ -4,13 +4,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import 'package:tripline/database/database_helper.dart';
-import 'package:tripline/main.dart';
-import 'package:tripline/imagehelpers/image_helper.dart';
-import 'package:tripline/messages/custom_toast.dart';
-import 'package:tripline/validations/signup_validations.dart';
-import 'package:tripline/widgets/other_widgets.dart';
-import 'package:tripline/widgets/input_fields.dart';
+import 'package:tripazo/database/database_helper.dart';
+import 'package:tripazo/main.dart';
+import 'package:tripazo/imagehelpers/image_helper.dart';
+import 'package:tripazo/messages/custom_toast.dart';
+import 'package:tripazo/validations/signup_validations.dart';
+import 'package:tripazo/widgets/other_widgets.dart';
+import 'package:tripazo/widgets/input_fields.dart';
 
 class SignupScreen extends StatefulWidget {
   SignupScreen({super.key});
@@ -324,7 +324,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   width: double.infinity,
                   color: Color(0xFFEEEEEE),
                   child: SvgPicture.asset(
-                    'assets/logo/tripline-logo-2.svg',
+                    'assets/logo/tripazo-logo-2.svg',
                     height: 30,
                     alignment: Alignment.bottomCenter,
                   ),
