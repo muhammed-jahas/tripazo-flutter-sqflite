@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:tripline/bottom_sheets/edit_profile_details_bottomsheet.dart';
-import 'package:tripline/bottom_sheets/sign_out_bottom_sheet.dart';
-import 'package:tripline/database/database_helper.dart';
-import 'package:tripline/styles/color_styles.dart';
+import 'package:tripazo/bottom_sheets/edit_profile_details_bottomsheet.dart';
+import 'package:tripazo/bottom_sheets/sign_out_bottom_sheet.dart';
+import 'package:tripazo/database/database_helper.dart';
+import 'package:tripazo/styles/color_styles.dart';
 
 class AppDrawer extends StatefulWidget {
   final Map<String, dynamic> loggedInUserData;
