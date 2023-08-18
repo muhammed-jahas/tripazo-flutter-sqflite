@@ -1,11 +1,11 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:tripline/screens/drawer_screen/drawer_screen.dart';
-import 'package:tripline/bottom_sheets/sign_out_bottom_sheet.dart';
-import 'package:tripline/screens/tools_screens/tool_child_fuel_screen.dart';
-import 'package:tripline/screens/tools_screens/tool_child_guidelines_screen.dart';
-import 'package:tripline/styles/text_styles.dart';
+import 'package:tripazo/screens/drawer_screen/drawer_screen.dart';
+import 'package:tripazo/bottom_sheets/sign_out_bottom_sheet.dart';
+import 'package:tripazo/screens/tools_screens/tool_child_fuel_screen.dart';
+import 'package:tripazo/screens/tools_screens/tool_child_guidelines_screen.dart';
+import 'package:tripazo/styles/text_styles.dart';
 
 class ToolsParentScreen extends StatefulWidget {
   final Map<String, dynamic> loggedInUserData;
@@ -106,8 +106,8 @@ class _ToolsParentScreenState extends State<ToolsParentScreen> {
                       },
                     ),
                     // _buildItemWidget(
-                    //   'assets/tripline-icon.svg',
-                    //   'How to use\nTripline App?',
+                    //   'assets/tripazo-icon.svg',
+                    //   'How to use\ntripazo App?',
                     //   () {},
                     // ),
                   ],
