@@ -1,12 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:tripline/database/database_helper.dart';
-import 'package:tripline/screens/expense_modules/expense_chart_widget.dart';
-import 'package:tripline/styles/color_styles.dart';
-import 'package:tripline/styles/text_styles.dart';
-import 'package:tripline/widgets/input_fields.dart';
-import 'package:tripline/widgets/other_widgets.dart';
+import 'package:tripazo/database/database_helper.dart';
+import 'package:tripazo/screens/expense_modules/expense_chart_widget.dart';
+import 'package:tripazo/styles/color_styles.dart';
+import 'package:tripazo/styles/text_styles.dart';
+import 'package:tripazo/widgets/input_fields.dart';
+import 'package:tripazo/widgets/other_widgets.dart';
+
 
 class ExpenseScreen extends StatefulWidget {
   final Map<String, dynamic> loggedInUserData;
