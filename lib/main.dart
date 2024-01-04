@@ -19,12 +19,11 @@ import 'package:tripline/styles/color_styles.dart';
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  //Database Initialization
   await DatabaseHelper.instance.initDB();
-
   // Retrieve the loggedInUserData
   Map<String, dynamic> loggedInUserData =
       await DatabaseHelper.instance.getLoggedInUserData();
-
   runApp(TriplineApp(loggedInUserData: loggedInUserData));
 }
 
@@ -35,26 +34,7 @@ class TriplineApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //  SystemChrome.setSystemUIOverlayStyle(
-    // SystemUiOverlayStyle(
-    //   statusBarColor: Colors.transparent
-    // )
-    // );
-    return
-        // AnnotatedRegion<SystemUiOverlayStyle>(
-        // value: SystemUiOverlayStyle(
-        //   systemNavigationBarColor: Colors.black, // Set your default SafeArea color for light mode
-        //   systemNavigationBarDividerColor: null,
-        //   statusBarColor: Colors.transparent,
-        //   systemNavigationBarIconBrightness:
-        //       MediaQuery.of(context).platformBrightness == Brightness.dark
-        //           ? Brightness.light // Set the icons to light for dark mode
-        //           : Brightness.dark, // Set the icons to dark for light mode
-        //   statusBarIconBrightness: MediaQuery.of(context).platformBrightness,
-        //   statusBarBrightness: MediaQuery.of(context).platformBrightness,
-        // ),
-        // child:
-        MaterialApp(
+    return MaterialApp(
       routes: {
         'Splash': (context) => SplashScreen(),
         'Signin': (context) => SigninScreen(),

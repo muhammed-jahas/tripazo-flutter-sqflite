@@ -24,10 +24,10 @@ class AppInfo extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildSectionHeading('About Tripline'),
+            _buildSectionHeading('About Tripazo'),
             SizedBox(height: 16),
             Text(
-              "Tripline App is an offline app designed to help you plan and manage your trips. It provides a user-friendly interface and a range of features to make your travel experience seamless and enjoyable.",
+              "Tripazo App is an offline app designed to help you plan and manage your trips. It provides a user-friendly interface and a range of features to make your travel experience seamless and enjoyable.",
             ),
             SizedBox(height: 16),
             _buildSectionHeading('Key Features'),
@@ -48,7 +48,7 @@ class AppInfo extends StatelessWidget {
             _buildSectionHeading('Version'),
             SizedBox(height: 16),
             Text(
-              "Tripline Version 1.0",
+              "Tripazo Version 1.0",
             ),
             SizedBox(height: 16),
             _buildSectionHeading('Made in India'),
@@ -63,7 +63,7 @@ class AppInfo extends StatelessWidget {
                 ),
                 SizedBox(width: 15),
                 Text(
-                  'Tripline App is proudly made in India.',
+                  'Tripazo App is proudly made in India.',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,

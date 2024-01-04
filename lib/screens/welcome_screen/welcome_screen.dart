@@ -1,10 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class WelcomeScreen extends StatelessWidget {
+class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
 
+  @override
+  State<WelcomeScreen> createState() => _WelcomeScreenState();
+}
+
+class _WelcomeScreenState extends State<WelcomeScreen> {
+
+  String? appVersion;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getAppInfo();
+  }
+  getAppInfo()async {
+    PackageInfo packageInfo = await  PackageInfo.fromPlatform();
+    appVersion = packageInfo.version;
+    print(appVersion);
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -113,7 +132,7 @@ class WelcomeScreen extends StatelessWidget {
                           height: 15,
                         ),
                         Text(
-                          'Version 1.0',
+                          'Version ${appVersion.toString()}',
                           style: TextStyle(
                             fontWeight: FontWeight.w400,
                             fontSize: 14,

@@ -32,7 +32,7 @@ class PrivacyPolicy extends StatelessWidget {
             ),
             SizedBox(height: 16),
             Text(
-              "Welcome to Tripline! We value your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, and disclose the information you provide when you use our Tripline mobile application (\"App\"). By using the App, you consent to the practices described in this policy.",
+              "Welcome to Tripazo! We value your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, and disclose the information you provide when you use our Tripazo mobile application (\"App\"). By using the App, you consent to the practices described in this policy.",
             ),
             SizedBox(height: 16),
             Text(
@@ -104,7 +104,7 @@ class PrivacyPolicy extends StatelessWidget {
             ),
             SizedBox(height: 16),
             Text(
-              "If you have any questions, concerns, or requests regarding this Privacy Policy, please contact us at triplineapp@gmail.com. We are here to assist you and address any privacy-related inquiries you may have.",
+              "If you have any questions, concerns, or requests regarding this Privacy Policy, please contact us at Tripazoapp@gmail.com. We are here to assist you and address any privacy-related inquiries you may have.",
             ),
             SizedBox(height: 16),
           ],

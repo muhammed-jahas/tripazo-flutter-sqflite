@@ -32,7 +32,7 @@ class TermsAndConditions extends StatelessWidget {
             ),
             SizedBox(height: 16),
             Text(
-              "Welcome to Tripline! These Terms and Conditions govern your use of our TripLine mobile application (the \"App\"). By accessing or using the App, you agree to be bound by these terms and conditions. If you do not agree with any part of these terms, please do not use the App.",
+              "Welcome to Tripazo! These Terms and Conditions govern your use of our Tripazo mobile application (the \"App\"). By accessing or using the App, you agree to be bound by these terms and conditions. If you do not agree with any part of these terms, please do not use the App.",
             ),
             SizedBox(height: 16),
             Text(

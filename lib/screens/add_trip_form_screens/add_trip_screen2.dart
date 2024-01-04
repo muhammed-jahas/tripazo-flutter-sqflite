@@ -58,6 +58,7 @@ class _Screen2State extends State<Screen2> {
                         OpenCoverSelection(context);
                       },
                       child: Container(
+                        height: 50,
                         padding: EdgeInsets.all(8),
                         decoration: BoxDecoration(
                             color: Colors.grey.shade200,
@@ -73,7 +74,7 @@ class _Screen2State extends State<Screen2> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
-                                      SizedBox(height: 80),
+                                    
                                       Icon(Icons.drive_folder_upload_outlined,
                                           size: 40,
                                           color: Colors.grey.shade700),

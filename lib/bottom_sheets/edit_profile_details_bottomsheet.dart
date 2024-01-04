@@ -38,7 +38,7 @@ class _EditProfileDetailsBottomSheetState
           bottom: MediaQuery.of(context).viewInsets.bottom,
         ),
         child: Container(
-          height: 300,
+          // height: 300,
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
