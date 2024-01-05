@@ -72,16 +72,9 @@ class _SplashScreenState extends State<SplashScreen> {
               height: 200,
             ),
             SizedBox(height: 20),
-            // Text(
-            //   isLoggedIn ? 'User Logged In' : 'User Not Logged In',
-            //   style: TextStyle(fontSize: 20),
-            // ),
+           
             SizedBox(height: 20),
-            // if (isLoggedIn)
-            //   Text(
-            //     'Logged In User Data: ${loggedInUserData.toString()}',
-            //     style: TextStyle(fontSize: 16),
-            //   ),
+          
           ],
         ),
       ),
