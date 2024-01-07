@@ -205,17 +205,18 @@ class _AddTripScreenState extends State<AddTripScreen> {
     //   print(results);
     // }
 
-    // print('-------------');
-    // final List<Map<String, dynamic>> checkpoints =
-    //     await DatabaseHelper.instance.queryCheckpointRecord();
-    // if (results.isEmpty) {
-    //   print('not found');
-    // } else {
-    //   print(checkpoints);
-    // }
+    print('-------------');
+    final List<Map<String, dynamic>> checkpoints =
+        await DatabaseHelper.instance.queryCheckpointRecord();
+    if (results.isEmpty) {
+      print('not found');
+    } else {
+      print(checkpoints);
+    }
     // Insert trip record
 
     print('-------------------');
+    
     Map<String, dynamic> tripRecord = {
       DatabaseHelper.columnUserId: SuperdataMap['userId'],
       DatabaseHelper.columnTripName:
@@ -245,7 +246,11 @@ class _AddTripScreenState extends State<AddTripScreen> {
     print(tripId);
     print('------tripRecord------');
     print(tripRecord);
-
+     Map<String, dynamic> checkpointsRecord = {
+      DatabaseHelper.columnTripId: tripId,
+      DatabaseHelper.columnTripCheckpoint: tripId,
+      
+    };
     Map<String, dynamic> ExpenseOverview = {
       DatabaseHelper.columnTripId: tripId,
       DatabaseHelper.columnTripBalance: 0,
@@ -257,18 +262,18 @@ class _AddTripScreenState extends State<AddTripScreen> {
         await DatabaseHelper.instance.insertExpenseOverview(ExpenseOverview);
     print('------ExpenseOverview------');
     print(expenseOverview);
+    
+    List<String> checkpoints = SuperdataMap['checkpoints'];
 
-    // List<String> checkpoints = SuperdataMap['checkpoints'];
-
-    // for (String checkpoint in checkpoints) {
-    //   Map<String, dynamic> checkpointRecord = {
-    //     DatabaseHelper.columnTripId: tripId,
-    //     DatabaseHelper.columnTripCheckpoint: checkpoint,
-    //   };
-    //   await DatabaseHelper.instance.insertCheckpointRecord(checkpointRecord);
-    //   print('-------------------');
-    //   print(checkpointRecord);
-    // }
+    for (String checkpoint in checkpoints) {
+      Map<String, dynamic> checkpointRecord = {
+        DatabaseHelper.columnTripId: tripId,
+        DatabaseHelper.columnTripCheckpoint: checkpoint,
+      };
+      await DatabaseHelper.instance.insertCheckpointRecord(checkpointRecord);
+      print('-------------------');
+      print(checkpointRecord);
+    }
 
     // Insert activities
     // List<String> activities = SuperdataMap[DatabaseHelper.columnTripActivity];

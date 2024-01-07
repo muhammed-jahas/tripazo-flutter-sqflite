@@ -30,7 +30,7 @@ class ChartCustom extends StatelessWidget {
               maximum: currentExpense,
               isVisible: false,
             ),
-            series: <ChartSeries>[
+            series: <CartesianSeries>[
               ColumnSeries<Expense, String>(
                 dataSource: data,
                 xValueMapper: (Expense expense, _) => expense.category,

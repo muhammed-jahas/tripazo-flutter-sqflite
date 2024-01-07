@@ -79,7 +79,7 @@ class _SignupScreenState extends State<SignupScreen> {
     _emailController.dispose();
     super.dispose();
   }
-
+  
   @override
   Widget build(BuildContext context) {
     return SafeArea(

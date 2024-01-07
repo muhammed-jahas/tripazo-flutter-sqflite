@@ -71,10 +71,7 @@ class _SplashScreenState extends State<SplashScreen> {
               'assets/logo/tripline-logo-white.svg',
               height: 200,
             ),
-            SizedBox(height: 20),
-           
-            SizedBox(height: 20),
-          
+            SizedBox(height: 40),        
           ],
         ),
       ),

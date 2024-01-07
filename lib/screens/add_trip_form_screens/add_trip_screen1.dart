@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:tripline/database/database_helper.dart';
 import 'package:tripline/styles/text_styles.dart';
 import 'package:tripline/validations/add_trip_validate.dart';
-
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:tripline/widgets/choice_chips.dart';
 import 'package:tripline/widgets/input_fields.dart';
 
@@ -18,11 +19,11 @@ class Screen1 extends StatefulWidget {
 class _Screen1State extends State<Screen1> {
   final TextEditingController tripName = TextEditingController();
   final TextEditingController destination = TextEditingController();
-  final TextEditingController startDate = TextEditingController();
-  final TextEditingController endDate = TextEditingController();
+  String? tripStartDate;
+  String? tripEndDate;
   String tripType = 'Business';
   String transportation = 'Flight';
-  int selectedTransportationIndex = 5;
+  int selectedTransportationIndex = 0;
   Map<String, IconData> choices = {
     'Flight': Icons.flight_takeoff_rounded,
     'Train': Icons.directions_train_sharp,
@@ -36,16 +37,17 @@ class _Screen1State extends State<Screen1> {
   void dispose() {
     tripName.dispose();
     destination.dispose();
-    startDate.dispose();
-    endDate.dispose();
+    // startDate.dispose();
+    // endDate.dispose();
     super.dispose();
   }
 
   void updateDataMap() {
+    
     widget.dataMap[DatabaseHelper.columnTripName] = tripName.text;
     widget.dataMap[DatabaseHelper.columnTripDestination] = destination.text;
-    widget.dataMap[DatabaseHelper.columnTripStartDate] = startDate.text;
-    widget.dataMap[DatabaseHelper.columnTripEndDate] = endDate.text;
+    widget.dataMap[DatabaseHelper.columnTripStartDate] = tripStartDate;
+    widget.dataMap[DatabaseHelper.columnTripEndDate] = tripEndDate;
     widget.dataMap[DatabaseHelper.columnTripType] = tripType;
     widget.dataMap[DatabaseHelper.columnTripTransporatation] =
         selectedTransportationIndex;
@@ -79,21 +81,30 @@ class _Screen1State extends State<Screen1> {
                 customValidator: AddTripValidator.validateDestination,
               ),
               SizedBox(height: 15),
-              CustomCalendarInputField(
-                hintText: 'Select start date',
-                inputControl: startDate,
-                inputIcon: Icons.calendar_today_outlined,
-                onChanged: (_) => updateDataMap(),
-                customValidator: AddTripValidator.validateStartDate,
+              SfDateRangePicker(
+                onSelectionChanged: onSelectionChanged,
+                selectionMode: DateRangePickerSelectionMode.range,
+                enablePastDates: false,
+                initialSelectedRange: PickerDateRange(
+                    DateTime.now().subtract(const Duration(days: 0)),
+                    DateTime.now().add(const Duration(days: 0))),
               ),
               SizedBox(height: 15),
-              CustomCalendarInputField(
-                hintText: 'Select end date',
-                inputControl: endDate,
-                inputIcon: Icons.calendar_today_outlined,
-                onChanged: (_) => updateDataMap(),
-              ),
-              SizedBox(height: 15),
+              // CustomCalendarInputField(
+              //   hintText: 'Select start date',
+              //   inputControl: startDate,
+              //   inputIcon: Icons.calendar_today_outlined,
+              //   onChanged: (_) => updateDataMap(),
+              //   customValidator: AddTripValidator.validateStartDate,
+              // ),
+              // SizedBox(height: 15),
+              // CustomCalendarInputField(
+              //   hintText: 'Select end date',
+              //   inputControl: endDate,
+              //   inputIcon: Icons.calendar_today_outlined,
+              //   onChanged: (_) => updateDataMap(),
+              // ),
+              // SizedBox(height: 15),
               Text('Select your trip type :', style: CustomTextStyles.subtitle),
               SizedBox(height: 15),
               CustomChoiceChips(
@@ -133,5 +144,16 @@ class _Screen1State extends State<Screen1> {
         ),
       ),
     );
+  }
+
+  onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
+    setState(() {
+      tripStartDate = DateFormat('yyyy-MM-dd').format(args.value.startDate);
+      tripEndDate = DateFormat('yyyy-MM-dd')
+          .format(args.value.endDate ?? args.value.startDate);
+    });
+    print(tripStartDate);
+    print(tripEndDate);
+    updateDataMap();
   }
 }

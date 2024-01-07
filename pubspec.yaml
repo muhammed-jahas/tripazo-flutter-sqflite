@@ -44,7 +44,9 @@ dependencies:
   path_provider: ^2.0.15
   permission_handler: ^10.4.3
   sqflite: ^2.2.8+4
-  syncfusion_flutter_charts: ^22.1.38
+  syncfusion_flutter_charts: ^24.1.44+1
+  syncfusion_flutter_core: ^24.1.44
+  syncfusion_flutter_datepicker: ^24.1.44
   table_calendar: ^3.0.9
   url_launcher: ^6.1.12
 

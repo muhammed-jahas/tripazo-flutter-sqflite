@@ -50,6 +50,7 @@ class _TripDetailsScreenState extends State<TripDetailsScreen> {
   @override
   void initState() {
     fetchTripDetails();
+    print(tripDetails);
     super.initState();
   }
 
@@ -68,6 +69,7 @@ class _TripDetailsScreenState extends State<TripDetailsScreen> {
     final tripId = widget.tripId;
     if (tripId != null) {
       final tripDetails = await DatabaseHelper.instance.getTripDetails(tripId);
+
       setState(() {
         this.tripDetails = tripDetails.isNotEmpty ? tripDetails.first : null;
         if (tripDetails.isNotEmpty &&
@@ -76,6 +78,7 @@ class _TripDetailsScreenState extends State<TripDetailsScreen> {
         }
       });
       currenttripId = tripId;
+      print(tripDetails);
       await fetchActivities(tripId);
     }
   }
@@ -87,9 +90,9 @@ class _TripDetailsScreenState extends State<TripDetailsScreen> {
       activities = fetchedActivities
           .map((activity) => activity['tripActivity'] as String)
           .toList();
-      // print(fetchedActivities);
-      // print('*********');
-      // print(activities);
+      print(fetchedActivities);
+      print('*********');
+      print(activities);
     });
   }
 

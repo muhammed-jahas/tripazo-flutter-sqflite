@@ -132,7 +132,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           height: 15,
                         ),
                         Text(
-                          'Version ${appVersion.toString()}',
+                          'Version ${appVersion}',
                           style: TextStyle(
                             fontWeight: FontWeight.w400,
                             fontSize: 14,

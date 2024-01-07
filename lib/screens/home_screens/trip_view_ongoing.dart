@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:tripline/database/database_helper.dart';
 import 'package:tripline/main.dart';
 import 'package:tripline/styles/text_styles.dart';
@@ -117,6 +118,8 @@ class TripCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final formattedStartDate =
+        DateFormat('dd-MM-yyyy').format(DateTime.parse(startDate));
     return Column(
       children: [
         Stack(
@@ -203,7 +206,7 @@ class TripCard extends StatelessWidget {
                     Icon(Icons.calendar_today_outlined, size: 12),
                     SizedBox(width: 5),
                     Text(
-                      startDate,
+                      formattedStartDate,
                       style: CustomTextStyles.titlenormal2,
                     ),
                   ],

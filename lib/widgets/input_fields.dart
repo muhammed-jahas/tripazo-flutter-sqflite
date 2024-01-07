@@ -248,6 +248,8 @@ class _CustomCalendarInputFieldState extends State<CustomCalendarInputField> {
       setState(() {
         selectedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
         widget.inputControl.text = selectedDate;
+        print(widget.inputControl.text);
+       
       });
     }
   }
