@@ -83,12 +83,7 @@ class _ExpenseScreenState extends State<ExpenseScreen>
 
   @override
   Widget build(BuildContext context) {
-    // // final ExpenseScreenArguments args =
-    // //     ModalRoute.of(context)?.settings.arguments as ExpenseScreenArguments;
-
-    // // Now you can access the loggedInUserData and tripData like this:
-    // final Map<String, dynamic> loggedInUserData = args.loggedInUserData!;
-    // final Map<String, dynamic>? tripData = args.tripData;
+   
 
     double screenHeight = MediaQuery.of(context).size.height;
     double appBarHeight = AppBar().preferredSize.height;
@@ -674,9 +669,7 @@ class _ExpenseScreenState extends State<ExpenseScreen>
                             child: CustomSecondaryButton(
                               buttonText: 'Add',
                               onPressed: () {
-                                // Perform actions on Add button click
-                                // For example, you can access the selected category using "selectedCategory" variable.
-                                // selectedCategory will hold the value of the currently selected category from the dropdown.
+                               
                               },
                             ),
                           ),
