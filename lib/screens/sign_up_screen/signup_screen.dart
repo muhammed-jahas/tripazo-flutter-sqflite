@@ -8,6 +8,7 @@ import 'package:tripazo/database/database_helper.dart';
 import 'package:tripazo/main.dart';
 import 'package:tripazo/imagehelpers/image_helper.dart';
 import 'package:tripazo/messages/custom_toast.dart';
+import 'package:tripazo/styles/color_styles.dart';
 import 'package:tripazo/validations/signup_validations.dart';
 import 'package:tripazo/widgets/other_widgets.dart';
 import 'package:tripazo/widgets/input_fields.dart';
@@ -79,258 +80,258 @@ class _SignupScreenState extends State<SignupScreen> {
     _emailController.dispose();
     super.dispose();
   }
-  
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Color(0xFFEEEEEE),
-        body: SingleChildScrollView(
-          child: Container(
-            color: Color(0xFFEEEEEE),
-            child: Column(
-              children: [
-                //Sign Up Header
-                Container(
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SingleChildScrollView(
+        child: Container(
+          color: Colors.white,
+          child: Column(
+            children: [
+              SizedBox(
+                height: 50,
+              ),
+              //Sign Up Header
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                height: 180,
+                width: double.infinity,
+                color: Colors.white,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Let's\nGo Together.",
+                      style:
+                          TextStyle(fontSize: 38, fontWeight: FontWeight.bold),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        OpenProfileSelection(context);
+                      },
+                      child: CircleAvatar(
+                        backgroundColor: CustomColors.primaryColor,
+                        backgroundImage: _profileImagePath.isNotEmpty
+                            ? FileImage(File(_profileImagePath))
+                            : null, // Set it to null since we don't want a background image
+                        child: _profileImagePath.isNotEmpty
+                            ? null // No need to display a child widget when there's a background image
+                            : Icon(Icons.person_add_alt_outlined),
+                        radius: 35,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              //Sign Up Section
+              Form(
+                key: formkey,
+                child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 20),
-                  height: 180,
                   width: double.infinity,
                   color: Colors.white,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Let's\nGo Together.",
+                        'Sign up to start planning your trips.',
                         style: TextStyle(
-                            fontSize: 38, fontWeight: FontWeight.bold),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          OpenProfileSelection(context);
-                        },
-                        child: CircleAvatar(
-                          backgroundImage: _profileImagePath.isNotEmpty
-                              ? FileImage(File(_profileImagePath))
-                              : null, // Set it to null since we don't want a background image
-                          child: _profileImagePath.isNotEmpty
-                              ? null // No need to display a child widget when there's a background image
-                              : Icon(Icons.person_add_alt_outlined),
-                          radius: 35,
+                          fontSize: 16,
                         ),
+                      ),
+                      SizedBox(
+                        height: 28,
+                      ),
+                      CustomInputField(
+                        hintText: 'Enter Your username',
+                        inputIcon: Icons.person_4_outlined,
+                        InputControl: _usernameController,
+                        errorText: _showUsernameError
+                            ? SignupValidate.usernameError
+                            : null,
+                      ),
+                      SizedBox(height: 15),
+                      CustomInputField(
+                        hintText: 'Enter your password',
+                        InputControl: _passwordController,
+                        inputIcon: Icons.remove_red_eye_outlined,
+                        errorText: _showPasswordError
+                            ? SignupValidate.passwordError
+                            : null,
+                        obscureText: true,
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      CustomInputField(
+                        hintText: 'Confirm your password',
+                        InputControl: _confirmPasswordController,
+                        inputIcon: Icons.remove_red_eye_outlined,
+                        errorText: _showConfirmPassError
+                            ? SignupValidate.confirmPasserror
+                            : null,
+                        obscureText: true,
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      CustomInputField(
+                        hintText: 'Enter your email',
+                        InputControl: _emailController,
+                        inputIcon: Icons.mail_outlined,
+                        errorText:
+                            _showMailError ? SignupValidate.mailError : null,
+                        keyboardtype: TextInputType.emailAddress,
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      CustomSecondaryButton(
+                          buttonText: 'Choose a profile picture',
+                          onPressed: () {
+                            OpenProfileSelection(context);
+                          }),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      CustomPrimaryButton(
+                          buttonText: 'Sign up',
+                          onPressed: () async {
+                            await SignupValidate.validateInputs(
+                              _usernameController,
+                              _passwordController,
+                              _confirmPasswordController,
+                              _emailController,
+                            );
+
+                            setState(() {
+                              _showUsernameError =
+                                  SignupValidate.usernameError != null;
+                              _showPasswordError =
+                                  SignupValidate.passwordError != null;
+                              _showConfirmPassError =
+                                  SignupValidate.confirmPasserror != null;
+                              _showMailError = SignupValidate.mailError != null;
+                            });
+                            if (_profileImagePath.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content:
+                                      Text('Please choose a profile photo'),
+                                  backgroundColor: Colors.red,
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 20),
+                                  behavior: SnackBarBehavior.floating,
+                                  shape: RoundedRectangleBorder(
+                                    // Customize the shape of the snackbar
+                                    borderRadius: BorderRadius.circular(0),
+                                  ),
+                                ),
+                              );
+                            }
+
+                            final username = _usernameController.text;
+                            final isUsernameExists = await DatabaseHelper
+                                .instance
+                                .isUsernameExists(username);
+
+                            if (isUsernameExists) {
+                              setState(() {
+                                SignupValidate.usernameError =
+                                    'Username Already Exists';
+                                _showUsernameError = true;
+                              });
+                              return;
+                            }
+                            if (!_showUsernameError &&
+                                !_showPasswordError &&
+                                !_showConfirmPassError &&
+                                !_showMailError &&
+                                _profileImagePath.isNotEmpty) {
+                              Map<String, dynamic> row = {
+                                DatabaseHelper.columnUser:
+                                    _usernameController.text,
+                                DatabaseHelper.columnPass:
+                                    _passwordController.text,
+                                DatabaseHelper.columnCPass:
+                                    _confirmPasswordController.text,
+                                DatabaseHelper.columnEmail:
+                                    _emailController.text,
+                                DatabaseHelper.columnProfile: _profileImagePath,
+                                DatabaseHelper.columnLoggedIn: 1,
+                              };
+
+                              await DatabaseHelper.instance.insertRecord(row);
+                              await checkLoggedInStatus();
+                              showCustomToast(
+                                  context,
+                                  'Account Created Successfully',
+                                  Icons.check_circle_rounded,
+                                  Colors.green);
+
+                              // Navigator.pushAndRemoveUntil(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //       builder: (context) =>
+                              //           HomeScreen(loggedInUserData: row)),
+                              //   (route) => false,
+                              // );
+                            }
+                          }),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      // CustomPrimaryButton(
+                      //     buttonText: 'Delete',
+                      //     onPressed: () async {
+                      //       await DatabaseHelper.instance.deleteRecord(1);
+                      //       print('record deleted');
+                      //       setState(() {});
+                      //     }),
+                      // SizedBox(
+                      //   height: 15,
+                      // ),
+                      // CustomPrimaryButton(
+                      //     buttonText: 'Read',
+                      //     onPressed: () async {
+                      //       final List<Map<String, dynamic>> results =
+                      //           await DatabaseHelper.instance.queryDatabase();
+                      //       if (results.isEmpty) {
+                      //         print('not found');
+                      //       } else {
+                      //         print(results);
+                      //       }
+
+                      //       setState(() {});
+                      //     }),
+                      //  SizedBox(
+                      //     height: 15,
+                      //   ),
+                      CustomSpanText(
+                          mainText: 'Already have an account ?',
+                          spanText: 'Sign in here',
+                          routeName: 'Signin'),
+                      SizedBox(
+                        height: 45,
                       ),
                     ],
                   ),
                 ),
-                //Sign Up Section
-                Form(
-                  key: formkey,
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    width: double.infinity,
-                    color: Colors.white,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Sign up to start planning your trips.',
-                          style: TextStyle(
-                            fontSize: 16,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 28,
-                        ),
-                        CustomInputField(
-                          hintText: 'Enter Your username',
-                          inputIcon: Icons.person_4_outlined,
-                          InputControl: _usernameController,
-                          errorText: _showUsernameError
-                              ? SignupValidate.usernameError
-                              : null,
-                        ),
-                        SizedBox(height: 15),
-                        CustomInputField(
-                          hintText: 'Enter your password',
-                          InputControl: _passwordController,
-                          inputIcon: Icons.remove_red_eye_outlined,
-                          errorText: _showPasswordError
-                              ? SignupValidate.passwordError
-                              : null,
-                          obscureText: true,
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        CustomInputField(
-                          hintText: 'Confirm your password',
-                          InputControl: _confirmPasswordController,
-                          inputIcon: Icons.remove_red_eye_outlined,
-                          errorText: _showConfirmPassError
-                              ? SignupValidate.confirmPasserror
-                              : null,
-                          obscureText: true,
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        CustomInputField(
-                          hintText: 'Enter your email',
-                          InputControl: _emailController,
-                          inputIcon: Icons.mail_outlined,
-                          errorText:
-                              _showMailError ? SignupValidate.mailError : null,
-                          keyboardtype: TextInputType.emailAddress,
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        CustomSecondaryButton(
-                            buttonText: 'Choose a profile picture',
-                            onPressed: () {
-                              OpenProfileSelection(context);
-                            }),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        CustomPrimaryButton(
-                            buttonText: 'Sign up',
-                            onPressed: () async {
-                              await SignupValidate.validateInputs(
-                                _usernameController,
-                                _passwordController,
-                                _confirmPasswordController,
-                                _emailController,
-                              );
-
-                              setState(() {
-                                _showUsernameError =
-                                    SignupValidate.usernameError != null;
-                                _showPasswordError =
-                                    SignupValidate.passwordError != null;
-                                _showConfirmPassError =
-                                    SignupValidate.confirmPasserror != null;
-                                _showMailError =
-                                    SignupValidate.mailError != null;
-                              });
-                              if (_profileImagePath.isEmpty) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content:
-                                        Text('Please choose a profile photo'),
-                                    backgroundColor: Colors.red,
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 20, vertical: 20),
-                                    behavior: SnackBarBehavior.floating,
-                                    shape: RoundedRectangleBorder(
-                                      // Customize the shape of the snackbar
-                                      borderRadius: BorderRadius.circular(0),
-                                    ),
-                                  ),
-                                );
-                              }
-
-                              final username = _usernameController.text;
-                              final isUsernameExists = await DatabaseHelper
-                                  .instance
-                                  .isUsernameExists(username);
-
-                              if (isUsernameExists) {
-                                setState(() {
-                                  SignupValidate.usernameError =
-                                      'Username Already Exists';
-                                  _showUsernameError = true;
-                                });
-                                return;
-                              }
-                              if (!_showUsernameError &&
-                                  !_showPasswordError &&
-                                  !_showConfirmPassError &&
-                                  !_showMailError &&
-                                  _profileImagePath.isNotEmpty) {
-                                Map<String, dynamic> row = {
-                                  DatabaseHelper.columnUser:
-                                      _usernameController.text,
-                                  DatabaseHelper.columnPass:
-                                      _passwordController.text,
-                                  DatabaseHelper.columnCPass:
-                                      _confirmPasswordController.text,
-                                  DatabaseHelper.columnEmail:
-                                      _emailController.text,
-                                  DatabaseHelper.columnProfile:
-                                      _profileImagePath,
-                                  DatabaseHelper.columnLoggedIn: 1,
-                                };
-
-                                await DatabaseHelper.instance.insertRecord(row);
-                                await checkLoggedInStatus();
-                                showCustomToast(
-                                    context,
-                                    'Account Created Successfully',
-                                    Icons.check_circle_rounded,
-                                    Colors.green);
-
-                                // Navigator.pushAndRemoveUntil(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //       builder: (context) =>
-                                //           HomeScreen(loggedInUserData: row)),
-                                //   (route) => false,
-                                // );
-                              }
-                            }),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        // CustomPrimaryButton(
-                        //     buttonText: 'Delete',
-                        //     onPressed: () async {
-                        //       await DatabaseHelper.instance.deleteRecord(1);
-                        //       print('record deleted');
-                        //       setState(() {});
-                        //     }),
-                        // SizedBox(
-                        //   height: 15,
-                        // ),
-                        // CustomPrimaryButton(
-                        //     buttonText: 'Read',
-                        //     onPressed: () async {
-                        //       final List<Map<String, dynamic>> results =
-                        //           await DatabaseHelper.instance.queryDatabase();
-                        //       if (results.isEmpty) {
-                        //         print('not found');
-                        //       } else {
-                        //         print(results);
-                        //       }
-
-                        //       setState(() {});
-                        //     }),
-                        //  SizedBox(
-                        //     height: 15,
-                        //   ),
-                        CustomSpanText(
-                            mainText: 'Already have an account ?',
-                            spanText: 'Sign in here',
-                            routeName: 'Signin'),
-                        SizedBox(
-                          height: 45,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.only(top: 15, bottom: 10),
-                  width: double.infinity,
-                  color: Color(0xFFEEEEEE),
-                  child: SvgPicture.asset(
-                    'assets/logo/tripazo-logo-2.svg',
-                    height: 30,
-                    alignment: Alignment.bottomCenter,
-                  ),
-                ),
-              ],
-            ),
+              ),
+              // Container(
+              //   padding: EdgeInsets.only(top: 15, bottom: 10),
+              //   width: double.infinity,
+              //   color: Color(0xFFEEEEEE),
+              //   child: SvgPicture.asset(
+              //     'assets/logo/tripazo-logo-2.svg',
+              //     height: 30,
+              //     alignment: Alignment.bottomCenter,
+              //   ),
+              // ),
+            ],
           ),
         ),
       ),

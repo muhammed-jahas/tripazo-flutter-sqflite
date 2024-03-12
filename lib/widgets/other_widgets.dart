@@ -17,7 +17,7 @@ class CustomPrimaryButton extends StatelessWidget {
       height: 54,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: Color(0xFFFF974C),
+          backgroundColor: CustomColors.primaryColor,
           elevation: 0,
           shadowColor: Colors.transparent,
           shape: RoundedRectangleBorder(

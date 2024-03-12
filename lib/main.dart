@@ -1,6 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:tripazo/database/database_helper.dart';
-
+import 'package:tripazo/navigation/navigation.dart';
+import 'package:tripazo/screens/add_trip_form_screens/add_trip_main_screen.dart';
+import 'package:tripazo/screens/catalog_screens/catalog_screen.dart';
+import 'package:tripazo/screens/expense_modules/expense_screen.dart';
+import 'package:tripazo/screens/home_screens/home_screen.dart';
+import 'package:tripazo/screens/settings_screens/app_info.dart';
+import 'package:tripazo/screens/settings_screens/help_screen.dart';
+import 'package:tripazo/screens/settings_screens/privacy_policy.dart';
+import 'package:tripazo/screens/settings_screens/settings_screen.dart';
+import 'package:tripazo/screens/settings_screens/terms_and_conditions.dart';
+import 'package:tripazo/screens/sign_in_screen/signin_screen.dart';
+import 'package:tripazo/screens/sign_up_screen/signup_screen.dart';
+import 'package:tripazo/screens/splash_screen/splash_screen.dart';
+import 'package:tripazo/screens/trip_details_screens/trip_details_screen.dart';
+import 'package:tripazo/screens/welcome_screen/welcome_screen.dart';
+import 'package:tripazo/styles/color_styles.dart';
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -54,6 +69,8 @@ class TriplineApp extends StatelessWidget {
             ),
       },
       theme: ThemeData(
+        
+        useMaterial3: false,
         primaryColor: CustomColors.primaryColor,
         primarySwatch: CustomColors.primaryColor,
         fontFamily: 'Outfit',

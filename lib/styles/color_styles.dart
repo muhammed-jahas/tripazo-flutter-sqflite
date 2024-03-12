@@ -17,7 +17,7 @@ class CustomColors {
     },
   );
 
-  static const int _primaryValue = 0xFFFF974C;
+  static const int _primaryValue = 0xFFFF4C00;
   static const Color alertColor = Color(0xFFE01B1B);
   // static const Color accentColor = Color(0xFF9C27B0);
   // static const Color textColor = Color(0xFF333333);
