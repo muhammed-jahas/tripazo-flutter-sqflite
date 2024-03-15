@@ -42,7 +42,7 @@ class _SigninScreenState extends State<SigninScreen> {
       // backgroundColor: Color(0xFFEEEEEE),
       body: Container(
         // color: Color(0xFFEEEEEE),
-        child: Column(
+        child: ListView(
           children: [
             // SizedBox(height: 20),
             // Sign Up Header

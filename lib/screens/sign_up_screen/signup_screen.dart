@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:tripazo/database/database_helper.dart';
@@ -350,72 +351,78 @@ class _SignupScreenState extends State<SignupScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              InkWell(
-                onTap: () async {
-                  String? imagePath = await ImageHelper.openCamera();
-                  if (imagePath != null) {
-                    setState(() {
-                      _profileImagePath = imagePath;
-                    });
-                  }
-                  Navigator.of(context).pop();
-                },
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 30),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                    color: Colors.black,
-                    width: 1,
-                  )),
-                  child: Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.camera_alt_outlined),
-                        padding: EdgeInsets.all(0),
-                        iconSize: 20,
-                      ),
-                      Text(
-                        'Camera',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    ],
+              Expanded(
+                child: InkWell(
+                  onTap: () async {
+                    String? imagePath = await ImageHelper.openCamera();
+                    if (imagePath != null) {
+                      setState(() {
+                        _profileImagePath = imagePath;
+                      });
+                    }
+                    Navigator.of(context).pop();
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                      color: Colors.black,
+                      width: 1,
+                    )),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.camera_alt_outlined),
+                          padding: EdgeInsets.all(0),
+                          iconSize: 20,
+                        ),
+                        Text(
+                          'Camera',
+                          style: TextStyle(fontSize: 14),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
               SizedBox(
                 width: 10,
               ),
-              InkWell(
-                onTap: () async {
-                  String? imagePath = await ImageHelper.openGallery();
-                  if (imagePath != null) {
-                    setState(() {
-                      _profileImagePath = imagePath;
-                    });
-                  }
-                  Navigator.of(context).pop();
-                },
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 30),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                    color: Colors.black,
-                    width: 1,
-                  )),
-                  child: Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.image_outlined),
-                        padding: EdgeInsets.all(0),
-                        iconSize: 20,
-                      ),
-                      Text(
-                        'Gallery',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    ],
+              Expanded(
+                child: InkWell(
+                  onTap: () async {
+                    String? imagePath = await ImageHelper.openGallery();
+                    if (imagePath != null) {
+                      setState(() {
+                        _profileImagePath = imagePath;
+                      });
+                    }
+                    Navigator.of(context).pop();
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                      color: Colors.black,
+                      width: 1,
+                    )),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.image_outlined),
+                          padding: EdgeInsets.all(0),
+                          iconSize: 20,
+                        ),
+                        Text(
+                          'Gallery',
+                          style: TextStyle(fontSize: 14),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

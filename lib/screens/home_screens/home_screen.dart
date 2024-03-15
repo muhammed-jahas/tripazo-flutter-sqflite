@@ -10,6 +10,7 @@ import 'package:tripazo/screens/search_screens/search_screen.dart';
 import 'package:tripazo/screens/home_screens/trip_view_ongoing.dart';
 import 'package:tripazo/screens/home_screens/trip_view_recent.dart';
 import 'package:tripazo/screens/home_screens/trip_view_upcoming.dart';
+import 'package:tripazo/styles/color_styles.dart';
 import 'package:tripazo/styles/text_styles.dart';
 import 'package:tripazo/widgets/other_widgets.dart';
 // Import the bottom sheet widget
@@ -73,6 +74,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Colors.white,
+        statusBarIconBrightness: Brightness.dark));
     final Map<String, dynamic> loggedInUserData = widget.loggedInUserData;
     String? profileImagePath = loggedInUserData['userprofile'];
 
@@ -96,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
               elevation: 0,
               backgroundColor: Colors.white,
               flexibleSpace: Container(
-                color: Colors.white,
+                color: Colors.transparent,
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -136,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           width: 40,
                           padding: EdgeInsets.all(0),
                           decoration: BoxDecoration(
-                            color: Color(0xFFFF974C),
+                            color: CustomColors.primaryColor,
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: IconButton(

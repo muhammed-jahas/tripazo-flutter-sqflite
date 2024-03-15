@@ -1,8 +1,10 @@
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:tripazo/bottom_sheets/edit_trip_details_bottom_sheet.dart';
 import 'package:tripazo/imagehelpers/image_helper.dart';
 import 'package:tripazo/main.dart';
@@ -124,8 +126,8 @@ class _TripDetailsScreenState extends State<TripDetailsScreen> {
     final String? profileImagePath = loggedInUserData['userprofile'];
 
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.white,
-    ));
+        statusBarColor: Colors.white,
+        statusBarIconBrightness: Brightness.dark));
 
     return WillPopScope(
       onWillPop: _onWillPop,
@@ -375,18 +377,18 @@ class _TripDetailsScreenState extends State<TripDetailsScreen> {
                             style: CustomTextStyles.titlewhite1,
                           ),
                           SizedBox(
-                            height: 15,
+                            height: 5,
                           ),
                           Text(
                             '₹ ${tripDetails!['tripBudget'] != null && tripDetails!['tripBudget'].toString().isNotEmpty ? tripDetails!['tripBudget'].toString() : '0'}',
                             style: CustomTextStyles.titlewhite2,
                           ),
                           SizedBox(
-                            height: 15,
+                            height: 5,
                           ),
                           Text(
                             'Balance: ₹ ${tripDetails!['tripBudget'] != null && tripDetails!['tripBudget'].toString().isNotEmpty ? tripDetails!['tripBudget'].toString() : '0'}',
-                            style: CustomTextStyles.titlewhite1,
+                            style: CustomTextStyles.titlenormalwhite,
                           ),
                         ],
                       ),
@@ -419,27 +421,27 @@ class _TripDetailsScreenState extends State<TripDetailsScreen> {
                               style: CustomTextStyles.titlewhite1,
                             ),
                             SizedBox(
-                              height: 15,
+                              height: 5,
                             ),
                             Text(
                               '₹0.00',
                               style: CustomTextStyles.titlewhite2,
                             ),
                             SizedBox(
-                              height: 15,
+                              height: 5,
                             ),
                             Row(
                               children: [
                                 Icon(
                                   Icons.add_box,
-                                  color: CustomColors.primaryColor,
+                                  color: Colors.white,
                                 ),
                                 SizedBox(
                                   width: 10,
                                 ),
                                 Text(
                                   'Add New',
-                                  style: CustomTextStyles.titlewhite1,
+                                  style: CustomTextStyles.titlewhitenormal,
                                 ),
                               ],
                             ),
@@ -990,79 +992,85 @@ class _TripDetailsScreenState extends State<TripDetailsScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              InkWell(
-                onTap: () async {
-                  String? imagePath = await ImageHelper.openCamera();
-                  if (imagePath != null && imagePath.isNotEmpty) {
-                    Map<String, dynamic> Album = {
-                      'tripId': tripDetails!['tripId'],
-                      'albumImage': imagePath,
-                    };
-                    await DatabaseHelper.instance.insertAlbumRecord(Album);
-                  }
-                  setState(() {});
-                  Navigator.of(context).pop();
-                },
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 30),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                    color: Colors.black,
-                    width: 1,
-                  )),
-                  child: Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.camera_alt_outlined),
-                        padding: EdgeInsets.all(0),
-                        iconSize: 20,
-                      ),
-                      Text(
-                        'Camera',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    ],
+              Expanded(
+                child: InkWell(
+                  onTap: () async {
+                    String? imagePath = await ImageHelper.openCamera();
+                    if (imagePath != null && imagePath.isNotEmpty) {
+                      Map<String, dynamic> Album = {
+                        'tripId': tripDetails!['tripId'],
+                        'albumImage': imagePath,
+                      };
+                      await DatabaseHelper.instance.insertAlbumRecord(Album);
+                    }
+                    setState(() {});
+                    Navigator.of(context).pop();
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                      color: Colors.black,
+                      width: 1,
+                    )),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.camera_alt_outlined),
+                          padding: EdgeInsets.all(0),
+                          iconSize: 20,
+                        ),
+                        Text(
+                          'Camera',
+                          style: TextStyle(fontSize: 12),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
               SizedBox(
                 width: 10,
               ),
-              InkWell(
-                onTap: () async {
-                  String? imagePath = await ImageHelper.openGallery();
-                  if (imagePath != null && imagePath.isNotEmpty) {
-                    Map<String, dynamic> Album = {
-                      'tripId': tripDetails!['tripId'],
-                      'albumImage': imagePath,
-                    };
-                    await DatabaseHelper.instance.insertAlbumRecord(Album);
-                  }
+              Expanded(
+                child: InkWell(
+                  onTap: () async {
+                    String? imagePath = await ImageHelper.openGallery();
+                    if (imagePath != null && imagePath.isNotEmpty) {
+                      Map<String, dynamic> Album = {
+                        'tripId': tripDetails!['tripId'],
+                        'albumImage': imagePath,
+                      };
+                      await DatabaseHelper.instance.insertAlbumRecord(Album);
+                    }
 
-                  setState(() {});
-                  Navigator.of(context).pop();
-                },
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 30),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                    color: Colors.black,
-                    width: 1,
-                  )),
-                  child: Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.image_outlined),
-                        padding: EdgeInsets.all(0),
-                        iconSize: 20,
-                      ),
-                      Text(
-                        'Gallery',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    ],
+                    setState(() {});
+                    Navigator.of(context).pop();
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                      color: Colors.black,
+                      width: 1,
+                    )),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.image_outlined),
+                          padding: EdgeInsets.all(0),
+                          iconSize: 20,
+                        ),
+                        Text(
+                          'Gallery',
+                          style: TextStyle(fontSize: 12),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

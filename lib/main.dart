@@ -95,6 +95,7 @@ class TriplineApp extends StatelessWidget {
       // ),
       home: SplashScreen(),
       debugShowCheckedModeBanner: false,
+      
     );
   }
 }

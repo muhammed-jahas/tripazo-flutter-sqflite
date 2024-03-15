@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:tripazo/database/database_helper.dart';
 import 'package:tripazo/imagehelpers/image_helper.dart';
 import 'package:tripazo/styles/text_styles.dart';
@@ -57,37 +59,67 @@ class _Screen2State extends State<Screen2> {
                       onTap: () {
                         OpenCoverSelection(context);
                       },
-                      child: Container(
-                        height: 50,
-                        padding: EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                            color: Colors.grey.shade200,
-                            borderRadius: BorderRadius.circular(4),
-                            image: DecorationImage(
-                                image: FileImage(File(_CoverImagePath)),
-                                fit: BoxFit.cover)),
-                        child: _CoverImagePath.trim().isNotEmpty
-                            ? null
-                            : Container(
-                                child: Center(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                    
-                                      Icon(Icons.drive_folder_upload_outlined,
-                                          size: 40,
-                                          color: Colors.grey.shade700),
-                                      SizedBox(height: 10),
-                                      Text(
-                                        'Choose / Upload\na cover image',
-                                        style: CustomTextStyles.GridText1,
-                                        textAlign: TextAlign.center,
+                      child: Stack(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade200,
+                              borderRadius: BorderRadius.circular(4),
+                              image: _CoverImagePath.trim().isNotEmpty
+                                  ? DecorationImage(
+                                      image: FileImage(File(_CoverImagePath)),
+                                      fit: BoxFit.cover)
+                                  : null,
+                            ),
+                            child: _CoverImagePath.trim().isNotEmpty
+                                ? null
+                                : Container(
+                                    child: Center(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                              Icons
+                                                  .drive_folder_upload_outlined,
+                                              size: 40,
+                                              color: Colors.grey.shade700),
+                                          SizedBox(height: 10),
+                                          Text(
+                                            'Choose / Upload a cover image',
+                                            style: CustomTextStyles.GridText1,
+                                            textAlign: TextAlign.center,
+                                          ),
+                                          SizedBox(height: 30),
+                                        ],
                                       ),
-                                    ],
+                                    ),
                                   ),
-                                ),
-                              ),
+                          ),
+                          _CoverImagePath.trim().isNotEmpty
+                              ? Positioned(
+                                  top: 8,
+                                  right: 8,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      // Handle edit action
+                                    },
+                                    child: CircleAvatar(
+                                      backgroundColor: Colors.white,
+                                      radius: 14,
+                                      child: Icon(
+                                        Icons.edit,
+                                        color: Colors.grey.shade700,
+                                        size: 18,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              : SizedBox(),
+                        ],
                       ),
                     ),
                   ],
@@ -399,72 +431,78 @@ class _Screen2State extends State<Screen2> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              InkWell(
-                onTap: () async {
-                  String? imagePath = await ImageHelper.openCamera();
-                  if (imagePath != null) {
-                    setState(() {
-                      _CoverImagePath = imagePath;
-                    });
-                  }
-                  Navigator.of(context).pop();
-                },
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 30),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                    color: Colors.black,
-                    width: 1,
-                  )),
-                  child: Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.camera_alt_outlined),
-                        padding: EdgeInsets.all(0),
-                        iconSize: 20,
-                      ),
-                      Text(
-                        'Camera',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    ],
+              Expanded(
+                child: InkWell(
+                  onTap: () async {
+                    String? imagePath = await ImageHelper.openCamera();
+                    if (imagePath != null) {
+                      setState(() {
+                        _CoverImagePath = imagePath;
+                      });
+                    }
+                    Navigator.of(context).pop();
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                      color: Colors.black,
+                      width: 1,
+                    )),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.camera_alt_outlined),
+                          padding: EdgeInsets.all(0),
+                          iconSize: 20,
+                        ),
+                        Text(
+                          'Camera',
+                          style: TextStyle(fontSize: 14),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
               SizedBox(
                 width: 10,
               ),
-              InkWell(
-                onTap: () async {
-                  String? imagePath = await ImageHelper.openGallery();
-                  if (imagePath != null) {
-                    setState(() {
-                      _CoverImagePath = imagePath;
-                    });
-                  }
-                  Navigator.of(context).pop();
-                },
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 30),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                    color: Colors.black,
-                    width: 1,
-                  )),
-                  child: Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.image_outlined),
-                        padding: EdgeInsets.all(0),
-                        iconSize: 20,
-                      ),
-                      Text(
-                        'Gallery',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    ],
+              Expanded(
+                child: InkWell(
+                  onTap: () async {
+                    String? imagePath = await ImageHelper.openGallery();
+                    if (imagePath != null) {
+                      setState(() {
+                        _CoverImagePath = imagePath;
+                      });
+                    }
+                    Navigator.of(context).pop();
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                      color: Colors.black,
+                      width: 1,
+                    )),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.image_outlined),
+                          padding: EdgeInsets.all(0),
+                          iconSize: 20,
+                        ),
+                        Text(
+                          'Gallery',
+                          style: TextStyle(fontSize: 14),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

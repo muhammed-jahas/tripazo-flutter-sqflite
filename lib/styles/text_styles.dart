@@ -16,6 +16,11 @@ class CustomTextStyles {
     fontWeight: FontWeight.w400,
     color: Colors.black,
   );
+  static const TextStyle titlenormalwhite = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: Colors.white,
+  );
   static const TextStyle titlewhite1 = TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.w500,

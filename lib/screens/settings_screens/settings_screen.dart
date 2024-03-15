@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tripazo/bottom_sheets/clear_app_data_bottomsheet.dart';
 import 'package:tripazo/bottom_sheets/edit_profile_details_bottomsheet.dart';
 import 'package:tripazo/database/database_helper.dart';
@@ -52,7 +53,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final String? profileImagePath = widget.loggedInUserData['userprofile'];
-
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Colors.white,
+        statusBarIconBrightness: Brightness.dark));
     return SafeArea(
       child: Scaffold(
         key: _scaffoldKey,
